@@ -1,0 +1,20 @@
+#!/bin/bash
+
+mkdir build
+cd build
+
+# Download Blender
+curl http://mirror.cs.umn.edu/blender.org/release/Blender2.73/blender-2.73a-linux-glibc211-x86_64.tar.bz2 > blender.tar.bz2
+tar jxvf blender.tar.bz2
+
+# Add missing lib file, backporting a later binary :/
+curl "http://launchpadlibrarian.net/104847226/libxxf86vm1_1.1.2-1_amd64.deb" > lib.deb
+ar vx lib.deb
+tar -xzvf data.tar.gz
+cp usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0 blender-2.73a-linux-glibc211-x86_64/lib/libXxf86vm.so.1
+
+cd ..
+
+mv build/blender-2.73a-linux-glibc211-x86_64 blender
+
+ln -s blender/blender-softwaregl ./blender
