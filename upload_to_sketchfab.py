@@ -124,15 +124,17 @@ def poll_processing_status(model_uid):
 # Upload a model an poll for its processing status
 ##################################################
 
+os.system("zip export2.zip export.blend")
+
 # Mandatory parameters
-model_file = "./bob.zip" # path to your model
+model_file = "./export2.zip"  # path to your model
 
 # Optional parameters
-name = "A Bob model"
-description = "This is a bob model I made with love and passion"
-password = "my-password"  # requires a pro account
-private = 1  # requires a pro account
-tags = "bob character video-games"  # space-separated list of tags
+name = "imgfab test"
+description = "test desc"
+password = ""  # requires a pro account
+private = 0  # requires a pro account
+tags = "imgfab"  # space-separated list of tags
 
 data = {
     'token': YOUR_API_TOKEN,
