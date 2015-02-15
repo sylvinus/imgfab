@@ -32,16 +32,22 @@ class Create3dGallery(Task):
         layout = params.get("layout", "cube")
 
         limit = params.get("limit", {
-            "cube": 6
+            "cube": 6,
+            "wall": 90
         }.get(layout, 10))
+
+        localdebug = params.get("localdebug")
+        localdebug = True
 
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
             "user": params["user"],
             "source_data": params["source_data"],
-            "limit": limit
+            "limit": limit,
+            "layout": layout
         })
 
-        # os.system("open %s" % tmpdir)
+        if localdebug:
+            os.system("open %s" % tmpdir)
 
         wait_for_job("tasks.gather_data.DownloadImages", {
             "directory": tmpdir
@@ -49,13 +55,16 @@ class Create3dGallery(Task):
 
         wait_for_job("tasks.create_model.CreateModel", {
             "directory": tmpdir,
-            "layout": layout
+            "layout": layout,
+            "localdebug": localdebug
         })
 
-        sketchfab_data = wait_for_job("tasks.upload_to_sketchfab.UploadToSketchfab", {
-            "directory": tmpdir
-        })
+        if not localdebug:
 
-        shutil.rmtree(tmpdir)
+            sketchfab_data = wait_for_job("tasks.upload_to_sketchfab.UploadToSketchfab", {
+                "directory": tmpdir
+            })
 
-        return sketchfab_data
+            shutil.rmtree(tmpdir)
+
+            return sketchfab_data

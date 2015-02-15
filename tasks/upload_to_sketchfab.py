@@ -58,7 +58,7 @@ class UploadToSketchfab(Task):
         description = params.get("description", "Created with http://imgfab.io")
         password = ""  # requires a pro account
         private = 0  # requires a pro account
-        tags = "imgfab gallery"  # space-separated list of tags
+        tags = "imgfab"  # space-separated list of tags
 
         data = {
             'token': YOUR_API_TOKEN,

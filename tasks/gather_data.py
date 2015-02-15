@@ -23,7 +23,8 @@ class FacebookAlbum(Task):
         limit = int(params.get("limit", 6))
 
         dump = {
-            "images": photos["data"][:limit]
+            "images": photos[:limit],
+            "layout": params["layout"]
         }
 
         tmpdir = tempfile.mkdtemp(prefix="imgfab")

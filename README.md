@@ -18,6 +18,10 @@ TODO
  - New layouts
  - Background image
  - Set sketchfab name from album name
+ - Make 2 mrq queues to avoid runing out of greenlets
+ - Disable FB albums will less than N images
+ - Much more exception handling
+ - User-supplied Sketchfab API keys
 
 Host your own instance on Heroku!
 =================================

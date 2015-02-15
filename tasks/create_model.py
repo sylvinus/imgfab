@@ -17,4 +17,5 @@ class CreateModel(Task):
           blender_path, blender_script, params["directory"]
         ))
 
-        # os.system("open %s" % export_file)
+        if params.get("localdebug"):
+            os.system("open %s" % export_file)

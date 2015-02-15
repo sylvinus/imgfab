@@ -17,9 +17,8 @@ class User(Document, UserMixin):
     email = EmailField()
     active = BooleanField(default=True)
 
-    def facebook_api(self, path, fields=None):
+    def facebook_api(self, url, fields=None):
 
-        url = "https://graph.facebook.com/v2.2%s" % path
         params = {
             'access_token': self.get_social_auth("facebook").extra_data['access_token']
         }
@@ -35,13 +34,20 @@ class User(Document, UserMixin):
 
     def get_facebook_albums(self):
 
-        return self.facebook_api("/me/albums", fields=["id", "name"])
+        return self.facebook_api("https://graph.facebook.com/v2.2/me/albums", fields=["id", "name"])["data"]
 
     def get_facebook_photos(self, album_id):
 
-        return self.facebook_api("/%s/photos" % album_id, fields=[
-            "id", "created_time", "from", "height", "width", "name", "source"
-        ])
+        photos = []
+        url = "https://graph.facebook.com/v2.2/%s/photos" % album_id
+
+        while url:
+            ret = self.facebook_api(url, fields=[
+                "id", "created_time", "from", "height", "width", "name", "source"
+            ])
+            photos += ret["data"]
+            url = ret.get("paging", {}).get("next")
+        return photos
 
     def get_social_auth(self, provider):
 

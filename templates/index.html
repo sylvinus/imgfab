@@ -22,8 +22,8 @@
           <br/><br/>
           <h4>3) Choose a layout</h4>
           <select id="imgfab_layout">
-            <option value="cube">Cube (Max: 6 photos)</option>
             <option value="wall">Wall (Max: 3 x 30 photos)</option>
+            <option value="cube">Cube (Max: 6 photos)</option>
           </select>
           <br/><br/>
 
@@ -87,8 +87,8 @@
 
           var options = [];
 
-          for (var i=0; i<data.data.length; i++) {
-            var album = data.data[i];
+          for (var i=0; i<data.length; i++) {
+            var album = data[i];
             options.push("<option value='"+album.id+"'>"+album.name+"</option>");
           }
           $("#facebook_albums").html(options.join(""));
