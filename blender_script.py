@@ -1,5 +1,7 @@
 import bpy
 import os
+import json
+import sys
 
 
 # Rmove the default cube
@@ -42,27 +44,41 @@ def create_image_texture(image):
     texture.image = image
     return texture
 
-bpy.ops.mesh.primitive_plane_add(
-    location=(0.0, 0.0, 0.0),
-    rotation=(0, 0, 0)
-)
-plane = bpy.context.object
 
-if plane.mode is not 'OBJECT':
-    print("Settings plane.mode to OBJECT")
-    bpy.ops.object.mode_set(mode='OBJECT')
+def create_plane_for_image(location, rotation, image):
 
-imgPath = "/Users/sylvinus/Dropbox/dotConferences/dotConferences/dotSwift/Photos/Tri/130.jpg"
+    bpy.ops.mesh.primitive_plane_add(
+        location=location,
+        rotation=rotation
+    )
+    plane = bpy.context.object
 
-img = bpy.data.images.load(imgPath)
+    if plane.mode is not 'OBJECT':
+        bpy.ops.object.mode_set(mode='OBJECT')
 
-texture = create_image_texture(img)
-material = create_material_for_texture(texture)
+    img = bpy.data.images.load(image["filepath"])
 
-plane.data.uv_textures.new()
-plane.data.materials.append(material)
-plane.data.uv_textures[0].data[0].image = img
+    texture = create_image_texture(img)
+    material = create_material_for_texture(texture)
+
+    plane.data.uv_textures.new()
+    plane.data.materials.append(material)
+    plane.data.uv_textures[0].data[0].image = img
+
+
+directory = sys.argv[1]
+
+print "Working on directory %s" % directory
+
+with open(os.path.join(directory, "images.json"), "rb") as f:
+    data = json.load(f)
+
+for i, image in enumerate(data["images"]):
+    create_plane_for_image(
+        location=(i, i, i),
+        rotation=(0, 0, 0),
+        image=image
+    )
 
 bpy.ops.file.pack_all()
-
-bpy.ops.wm.save_as_mainfile(filepath="export.blend")
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(directory, "export.blend"))

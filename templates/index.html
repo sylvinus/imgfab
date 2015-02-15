@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<div class="container">
+  <h1>imgfab</h1>
+
+  <a href="{{ url_for("social.auth", backend="facebook") }}">Import photos from Facebook</a> <br />
+
+  {% if user.username %}
+    <p>You are logged in as {{ user.username }}!</p>
+
+    <p>Associated:</p>
+    {% for assoc in backends.associated %}
+      <div>
+        {{ assoc.provider }}
+        <form method="post" action="{{ url_for("social.disconnect", backend=assoc.provider, association_id=assoc.id) }}">
+          <button>Disconnect</button>
+        </form>
+      </div>
+    {% endfor %}
+
+    Choose an album: <select id="facebook_albums"><option value="">Loading...</option></select>
+
+    <br/><br/>
+    <button id="go_create">Create 3D Gallery!</button>
+
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<script>
+  $(function() {
+
+    $.getJSON("/data/facebook/albums", {}, function(data) {
+
+      var options = [];
+
+      for (var i=0; i<data.data.length; i++) {
+        var album = data.data[i];
+        options.push("<option value='"+album.id+"'>"+album.name+"</option>");
+      }
+      $("#facebook_albums").html(options.join(""));
+    });
+
+    $("#go_create").on("click", function() {
+      $.ajax({
+        url: "/create_task",
+        data: {
+          "path": "process.Create3dGallery",
+          "params": JSON.stringify({
+            "source_name": "FacebookAlbum",
+            "source_data": {
+              "album": $("#facebook_albums").val()
+            }
+          })
+        },
+        method:"POST",
+        dataType: "json",
+        success: function(data) {
+          console.log(data);
+        }
+      })
+    });
+
+  });
+</script>
+
+{% endblock %}

@@ -21,3 +21,29 @@ TODO
  - Multiple layouts
  - Background image
  - FB connect
+
+Host your own instance on Heroku!
+=================================
+
+
+```
+# Create an heroku app with this
+$ heroku apps:create
+
+# Add your API keys
+$ heroku config:set SKETCHFAB_API_KEY=x SOCIAL_AUTH_FACEBOOK_KEY=x SOCIAL_AUTH_FACEBOOK_SECRET=x
+
+# Add MongoDB & Redis (for storage & task queue)
+$ heroku addons:add rediscloud
+$ heroku addons:add mongolab
+```
+
+To test locally you can pull the config variables:
+
+```
+export MONGOLAB_URI=`heroku config:get MONGOLAB_URI`
+export REDISCLOUD_URL=`heroku config:get REDISCLOUD_URL`
+export SKETCHFAB_API_KEY=`heroku config:get SKETCHFAB_API_KEY`
+export SOCIAL_AUTH_FACEBOOK_KEY=`heroku config:get SOCIAL_AUTH_FACEBOOK_KEY`
+export SOCIAL_AUTH_FACEBOOK_SECRET=`heroku config:get SOCIAL_AUTH_FACEBOOK_SECRET`
+```

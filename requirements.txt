@@ -1,1 +1,10 @@
 requests==2.5.1
+mrq==0.1.10
+Flask-0.10.1
+python-social-auth==0.2.1
+Flask-Bootstrap==3.3.0.1
+flask-appconfig==0.9.1
+mongoengine==0.8.7
+flask-login==0.2.11
+gunicorn==19.2.1
+flask_mongoengine==0.7.1
