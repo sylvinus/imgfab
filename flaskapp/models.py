@@ -11,6 +11,9 @@ class User(Document, UserMixin):
     username = StringField(max_length=200)
     password = StringField(max_length=200, default='')
     name = StringField(max_length=100)
+    fullname = StringField(max_length=100)
+    first_name = StringField(max_length=100)
+    last_name = StringField(max_length=100)
     email = EmailField()
     active = BooleanField(default=True)
 

@@ -2,12 +2,7 @@ import bpy
 import os
 import json
 import sys
-
-
-# Rmove the default cube
-for ob in bpy.context.scene.objects:
-    ob.select = ob.type == 'MESH' and ob.name.startswith("Cube")
-bpy.ops.object.delete()
+import math
 
 
 def create_material_for_texture(texture):
@@ -66,17 +61,62 @@ def create_plane_for_image(location, rotation, image):
     plane.data.uv_textures[0].data[0].image = img
 
 
-directory = sys.argv[1]
+def setup_scene():
 
-print "Working on directory %s" % directory
+    # Rmove the default cube
+    for ob in bpy.context.scene.objects:
+        ob.select = (ob.type == 'MESH' or ob.type == 'LAMP')
+        bpy.ops.object.delete()
 
-with open(os.path.join(directory, "images.json"), "rb") as f:
+    # Add 2 HEMI lamps with opposite positions for 100% lighting.
+
+    for lamp_i in [0, 1]:
+        lamp_data = bpy.data.lamps.new(name="Lamp%s" % lamp_i, type='HEMI')
+        lamp_object = bpy.data.objects.new(name="Lamp%s" % lamp_i, object_data=lamp_data)
+        bpy.context.scene.objects.link(lamp_object)
+        lamp_object.location = [5, 5, 5] if lamp_i == 0 else [-5, -5, -5]
+        lamp_object.rotation_euler = [-math.pi / 4, math.pi / 4, 0] if lamp_i == 0 else [5 * math.pi / 4, 0, 3 * math.pi / 4]
+
+
+directory = sys.argv[-1]
+
+print("Working on directory %s" % directory)
+
+with open(os.path.join(directory, "images.json"), "r") as f:
     data = json.load(f)
 
+layout = data.get("layout", "cube")
+
+
+setup_scene()
+
+
 for i, image in enumerate(data["images"]):
+    location = None
+    rotation = None
+
+    if layout == "cube":
+        location = [
+            [1, 0, 0],
+            [0, 1, 0],
+            [-1, 0, 0],
+            [0, -1, 0],
+            [0, 0, -1],
+            [0, 0, 1],
+        ][i % 6]
+
+        rotation = [
+            [math.pi / 2, 0, math.pi / 2],
+            [- math.pi / 2, math.pi, 0],
+            [math.pi / 2, 0, - math.pi / 2],
+            [math.pi / 2, 0, 0],
+            [math.pi, math.pi, 0],
+            [0, 0, 0]
+        ][i % 6]
+
     create_plane_for_image(
-        location=(i, i, i),
-        rotation=(0, 0, 0),
+        location=location,
+        rotation=rotation,
         image=image
     )
 

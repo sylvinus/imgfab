@@ -31,10 +31,11 @@ class Create3dGallery(Task):
 
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
             "user": params["user"],
-            "source_data": params["source_data"]
+            "source_data": params["source_data"],
+            "limit": params.get("limit", 6)
         })
 
-        os.system("open %s" % tmpdir)
+        # os.system("open %s" % tmpdir)
 
         wait_for_job("tasks.gather_data.DownloadImages", {
             "directory": tmpdir

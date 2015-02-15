@@ -12,11 +12,11 @@ from flask import Flask, render_template, redirect, g, request
 from flask_bootstrap import Bootstrap
 from flask_appconfig import AppConfig
 from social.apps.flask_app.routes import social_auth
-from social.apps.flask_app.me.models import init_social, FlaskStorage
+from social.apps.flask_app.me.models import init_social
 from flask.ext import login, mongoengine
 from social.apps.flask_app.template_filters import backends
-from mrq.job import queue_job
-from mrq.context import setup_context
+from mrq.job import queue_job, Job
+from mrq.context import setup_context, get_current_config
 import json
 
 sys.path.append(os.path.abspath(os.path.join(__file__, '../..')))
@@ -39,7 +39,8 @@ app.context_processor(backends)
 login_manager = login.LoginManager()
 login_manager.init_app(app)
 
-setup_context()
+if get_current_config() is None:
+    setup_context()
 
 
 @app.route("/data/facebook/albums")
@@ -48,9 +49,9 @@ def data_facebook_albums():
     return json.dumps(g.user.get_facebook_albums())
 
 
-@app.route("/create_task", methods=["POST"])
+@app.route("/create_job", methods=["POST"])
 @login.login_required
-def create_task():
+def create_job():
     taskpath = request.form['path']
     taskparams = json.loads(request.form['params'])
 
@@ -61,7 +62,22 @@ def create_task():
 
     job_id = queue_job("tasks.%s" % taskpath, taskparams)
 
-    return str(job_id)
+    return json.dumps({"job_id": str(job_id)})
+
+
+@app.route("/get_job")
+@login.login_required
+def get_job():
+
+    job_id = request.args['job_id']
+
+    job = Job(job_id)
+    job.fetch()
+
+    if job.data["params"].get("user") != str(g.user.id):
+        return "Unauthorized."
+
+    return json.dumps({k: v for k, v in job.data.iteritems() if k in ("status", "result")})
 
 
 @app.route('/')

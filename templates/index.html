@@ -2,32 +2,67 @@
 {% import "bootstrap/fixes.html" as fixes %}
 
 {% block content %}
-<div class="container">
-  <h1>imgfab</h1>
+<div class="container text-center">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
 
-  <a href="{{ url_for("social.auth", backend="facebook") }}">Import photos from Facebook</a> <br />
+      <h1>imgfab</h1>
+      <h2>Create amazing 3D photo galleries on <a href="http://sketchfab.com" target="_blank">Sketchfab</a>!</h2>
 
-  {% if user.username %}
-    <p>You are logged in as {{ user.username }}!</p>
+      <br/><br/><br/>
 
-    <p>Associated:</p>
-    {% for assoc in backends.associated %}
-      <div>
-        {{ assoc.provider }}
-        <form method="post" action="{{ url_for("social.disconnect", backend=assoc.provider, association_id=assoc.id) }}">
-          <button>Disconnect</button>
-        </form>
-      </div>
-    {% endfor %}
+      <div class="panel panel-default">
+      <div class="panel-body">
 
-    Choose an album: <select id="facebook_albums"><option value="">Loading...</option></select>
+        {% if user.username %}
+          <p>Welcome {{ user.first_name }}!</p>
+          <h4>2) Choose an album</h4>
+          <select id="facebook_albums"><option value="">Loading...</option></select>
 
-    <br/><br/>
-    <button id="go_create">Create 3D Gallery!</button>
+          <br/><br/>
+          <h4>3) Choose a layout</h4>
+          <select id="imgfab_layout"><option value="">Cube</option></select>
+          <br/><br/>
 
-  {% endif %}
+          <button id="go_create" class="btn btn-primary">Create 3D Gallery!</button>
 
+          <br/><br/>
+
+          <div id="model_loading" style="display:none;" class="alert alert-info" role="alert">
+            3D gallery is being created, please wait ... This might take a few minutes.
+          </div>
+          <div id="model_link" style="display:none;" class="alert alert-success" role="alert">
+            Congrats! Your 3D gallery is available here:<br/> <a target="_blank" href="" class="model_link_a"></a>
+          </div>
+
+        {% else %}
+
+        <h4>1) Choose a source for your photos</h4>
+        <a class="btn btn-primary" href="{{ url_for("social.auth", backend="facebook") }}">Import from Facebook</a> <br />
+
+        {% endif %}
+
+      </div></div>
+
+      <br/><br/>
+
+      <h3>About imgfab</h3>
+      <p><a href="http://imgfab.io">imgfab</a> is a weekend project by <a href="http://twitter.com/sylvinus">Sylvain Zimmer</a> to experiment with the <a href="https://sketchfab.com/developers">Sketchfab API</a> and the dynamic generation of 3D models with <a href="http://blender.org">Blender</a>.</p>
+      <p>Full source is available on <a href="http://github.com/sylvinus/imgfab">GitHub</a>, feel free to fork it and create your own crazy 3D models!</p>
+
+      <h3>Privacy policy</h3>
+      <p>We don't store your photos. You can safely disconnect after creating your gallery.</p>
+      {% for assoc in backends.associated %}
+          <form method="post" action="{{ url_for("social.disconnect", backend=assoc.provider, association_id=assoc.id) }}?next=/logout">
+            <button class="btn btn-default btn-xs">Disconnect from {{ assoc.provider }}</button>
+          </form>
+      {% endfor %}
+    </div>
+  </div>
 </div>
+
+<a href="https://github.com/sylvinus/imgfab" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
 {% endblock %}
 
 {% block head %}
@@ -38,41 +73,84 @@
 {% block scripts %}
 {{super()}}
 
+
 <script>
   $(function() {
 
-    $.getJSON("/data/facebook/albums", {}, function(data) {
 
-      var options = [];
+    {% if user.username %}
 
-      for (var i=0; i<data.data.length; i++) {
-        var album = data.data[i];
-        options.push("<option value='"+album.id+"'>"+album.name+"</option>");
-      }
-      $("#facebook_albums").html(options.join(""));
-    });
+        $.getJSON("/data/facebook/albums", {}, function(data) {
 
-    $("#go_create").on("click", function() {
-      $.ajax({
-        url: "/create_task",
-        data: {
-          "path": "process.Create3dGallery",
-          "params": JSON.stringify({
-            "source_name": "FacebookAlbum",
-            "source_data": {
-              "album": $("#facebook_albums").val()
+          var options = [];
+
+          for (var i=0; i<data.data.length; i++) {
+            var album = data.data[i];
+            options.push("<option value='"+album.id+"'>"+album.name+"</option>");
+          }
+          $("#facebook_albums").html(options.join(""));
+        });
+
+        $("#go_create").on("click", function() {
+
+          $("#model_link").hide();
+          $("#model_loading").show();
+
+          $.ajax({
+            url: "/create_job",
+            data: {
+              "path": "process.Create3dGallery",
+              "params": JSON.stringify({
+                "source_name": "FacebookAlbum",
+                "source_data": {
+                  "album": $("#facebook_albums").val()
+                }
+              })
+            },
+            method:"POST",
+            dataType: "json",
+            success: function(data) {
+              var job_id = data.job_id;
+
+              poll_for_model(job_id);
+
             }
           })
-        },
-        method:"POST",
-        dataType: "json",
-        success: function(data) {
-          console.log(data);
+        });
+
+        var poll_for_model = function(job_id) {
+          $.getJSON("/get_job?job_id="+job_id, function(data) {
+            if (data.status == "success") {
+
+              $(".model_link_a").html(data.result.model_url);
+              $(".model_link_a").attr("href", data.result.model_url);
+              $("#model_link").show();
+              $("#model_loading").hide();
+
+            } else if (data.status == "failed") {
+              $("#model_loading").hide();
+              alert("There was an error creating your model. Please try again later!");
+            } else {
+              setTimeout(function() {
+                poll_for_model(job_id)
+              }, 5000);
+            }
+          });
         }
-      })
-    });
+
+
+    {% endif %}
 
   });
 </script>
 
+<style>
+  h1 {
+    font-size:70px;
+  }
+  h2 {
+    margin-top:0;
+    font-size:20px;
+  }
+</style>
 {% endblock %}

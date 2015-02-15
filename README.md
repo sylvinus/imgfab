@@ -32,7 +32,7 @@ $ heroku apps:create
 
 # Add your API keys
 $ heroku config:set SKETCHFAB_API_KEY=x SOCIAL_AUTH_FACEBOOK_KEY=x SOCIAL_AUTH_FACEBOOK_SECRET=x
-
+$ heroku config:set BLENDER_PATH=build/blender-2.73a-linux-glibc211-x86_64/blender-softwaregl
 # Add MongoDB & Redis (for storage & task queue)
 $ heroku addons:add rediscloud
 $ heroku addons:add mongolab

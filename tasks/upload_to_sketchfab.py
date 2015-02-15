@@ -17,18 +17,18 @@
 # - limit the rate at which you poll for the status (once every few seconds is more than enough)
 ##
 
+from mrq.task import Task
+import os
+import requests
+from time import sleep
+import random
+
 
 SKETCHFAB_DOMAIN = 'sketchfab.com'
 SKETCHFAB_API_URL = 'https://api.{}/v2/models'.format(SKETCHFAB_DOMAIN)
 SKETCHFAB_MODEL_URL = 'https://{}/models/'.format(SKETCHFAB_DOMAIN)
 
 YOUR_API_TOKEN = os.getenv("SKETCHFAB_API_KEY")
-
-from mrq.task import Task
-import os
-import requests
-from time import sleep
-import random
 
 
 class UploadToSketchfab(Task):
@@ -39,18 +39,23 @@ class UploadToSketchfab(Task):
 
         rand = random.randint(100000000, 9999999999)
 
-        zip_name = "export-%s.zip" % rand
-        model_file = "%s/%s" % zip_name
+        zip_name = "export.zip"  # % rand
 
-        os.system("zip %s %s/export.blend" % (
-            model_file, directory
+        model_file = os.path.join(directory, zip_name)
+        source_file = os.path.join(directory, "export.blend")
+
+        if os.path.isfile(model_file):
+            os.remove(model_file)
+
+        os.system("zip -j %s %s" % (
+            model_file, source_file
         ))
 
         # Mandatory parameters
 
         # Optional parameters
         name = params.get("name", "imgfab #%s" % rand)
-        description = params.get("description", "http://imgfab.io")
+        description = params.get("description", "Created with http://imgfab.io")
         password = ""  # requires a pro account
         private = 0  # requires a pro account
         tags = "imgfab gallery"  # space-separated list of tags
@@ -66,9 +71,9 @@ class UploadToSketchfab(Task):
 
         f = open(model_file, 'rb')
 
-        files = {
-            'modelFile': f
-        }
+        files = [
+            ("modelFile", ("export.zip", f, "application/zip"))
+        ]
 
         try:
             model_uid = self.upload(data, files)
