@@ -22,6 +22,7 @@ TODO
  - Disable FB albums will less than N images
  - Much more exception handling
  - User-supplied Sketchfab API keys
+ - Other photo sources: Twitter, Instagram, Flickr, URL list
 
 Host your own instance on Heroku!
 =================================

@@ -37,7 +37,6 @@ class Create3dGallery(Task):
         }.get(layout, 10))
 
         localdebug = params.get("localdebug")
-        localdebug = True
 
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
             "user": params["user"],
