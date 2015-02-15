@@ -15,14 +15,17 @@ TODO
 ====
 
  - Adapt plane size to the photo ratio / crop differently
- - New layouts
+ - New layouts (sphere, museum room)
  - Background image
  - Set sketchfab name from album name
- - Make 2 mrq queues to avoid runing out of greenlets
- - Disable FB albums will less than N images
+ - Make 2 mrq queues to avoid runing out of greenlets if load grows
+ - Show FB album photo count (+ thumbnails?)
  - Much more exception handling
  - User-supplied Sketchfab API keys
  - Other photo sources: Twitter, Instagram, Flickr, URL list
+ - Nicer 3D rendering/lighting
+ - Upload with annotations
+
 
 Host your own instance on Heroku!
 =================================

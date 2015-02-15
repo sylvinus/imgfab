@@ -1,5 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/google.html" as google %}
 
 {% block content %}
 <div class="container text-center">
@@ -83,10 +84,25 @@
 <br/><br/><br/><br/>
 {% endblock %}
 
+
 {% block head %}
+
 {{super()}}
 {{fixes.ie8()}}
+
+<style>
+  h1 {
+    font-size:70px;
+  }
+  h2 {
+    margin-top:0;
+    font-size:20px;
+  }
+</style>
+
 {% endblock %}
+
+
 
 {% block scripts %}
 {{super()}}
@@ -161,15 +177,11 @@
     {% endif %}
 
   });
+
 </script>
 
-<style>
-  h1 {
-    font-size:70px;
-  }
-  h2 {
-    margin-top:0;
-    font-size:20px;
-  }
-</style>
+{% if config['GOOGLE_ANALYTICS_ACCOUNT'] %}
+{{google.analytics(account=config['GOOGLE_ANALYTICS_ACCOUNT'])}}
+{% endif %}
+
 {% endblock %}
