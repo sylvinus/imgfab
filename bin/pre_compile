@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script gets executed by Heroku on deploy, to fetch external dependencies.
+
 mkdir build
 cd build
 
