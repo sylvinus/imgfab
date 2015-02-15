@@ -14,13 +14,10 @@ How it works:
 TODO
 ====
 
- - JSON spec
- - Image downloader
- - Multiple files
- - Adapt plane size to the photo ratio
- - Multiple layouts
+ - Adapt plane size to the photo ratio / crop differently
+ - New layouts
  - Background image
- - FB connect
+ - Set sketchfab name from album name
 
 Host your own instance on Heroku!
 =================================

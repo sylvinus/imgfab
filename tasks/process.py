@@ -29,10 +29,16 @@ class Create3dGallery(Task):
 
     def run(self, params):
 
+        layout = params.get("layout", "cube")
+
+        limit = params.get("limit", {
+            "cube": 6
+        }.get(layout, 10))
+
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
             "user": params["user"],
             "source_data": params["source_data"],
-            "limit": params.get("limit", 6)
+            "limit": limit
         })
 
         # os.system("open %s" % tmpdir)
@@ -42,7 +48,8 @@ class Create3dGallery(Task):
         })
 
         wait_for_job("tasks.create_model.CreateModel", {
-            "directory": tmpdir
+            "directory": tmpdir,
+            "layout": layout
         })
 
         sketchfab_data = wait_for_job("tasks.upload_to_sketchfab.UploadToSketchfab", {

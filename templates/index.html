@@ -21,7 +21,10 @@
 
           <br/><br/>
           <h4>3) Choose a layout</h4>
-          <select id="imgfab_layout"><option value="">Cube</option></select>
+          <select id="imgfab_layout">
+            <option value="cube">Cube (Max: 6 photos)</option>
+            <option value="wall">Wall (Max: 3 x 30 photos)</option>
+          </select>
           <br/><br/>
 
           <button id="go_create" class="btn btn-primary">Create 3D Gallery!</button>
@@ -38,7 +41,7 @@
         {% else %}
 
         <h4>1) Choose a source for your photos</h4>
-        <a class="btn btn-primary" href="{{ url_for("social.auth", backend="facebook") }}">Import from Facebook</a> <br />
+        <a class="btn btn-primary" href="{{ url_for("social.auth", backend="facebook") }}?next=/">Import from Facebook</a> <br />
 
         {% endif %}
 
@@ -104,7 +107,8 @@
                 "source_name": "FacebookAlbum",
                 "source_data": {
                   "album": $("#facebook_albums").val()
-                }
+                },
+                "layout": $("#imgfab_layout").val()
               })
             },
             method:"POST",
