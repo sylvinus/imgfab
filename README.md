@@ -6,9 +6,9 @@ Because your Facebook photos are so 2D!
 How it works:
 
  - Facebook connect => List of images & descriptions from a user, saved as JSON
- - Download all the images in the directory, replace the URLs in the JSON file
- - `create_model.py`: creates a blender model from a directory
- - `upload_to_sketchfab.py`: uploads the blender model to http://sketchfab.com
+ - `tasks/gather_data.py`: Downloads all the images in a temporary directory
+ - `tasks/create_model.py`: Creates a blender model from the directory
+ - `tasks/upload_to_sketchfab.py`: Uploads the model to http://sketchfab.com
 
 
 TODO
@@ -25,6 +25,8 @@ TODO
  - Other photo sources: Twitter, Instagram, Flickr, URL list
  - Nicer 3D rendering/lighting
  - Upload with annotations
+ - Favicon / Logo
+ - Share result
 
 
 Host your own instance on Heroku!
