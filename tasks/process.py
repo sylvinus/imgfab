@@ -1,7 +1,6 @@
 from mrq.task import Task
 from mrq.context import run_task
 from mrq.job import queue_job, get_job_result
-from flaskapp.models import User
 import json
 import tempfile
 import shutil
@@ -39,7 +38,7 @@ class Create3dGallery(Task):
         localdebug = params.get("localdebug")
 
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
-            "user": params["user"],
+            "user": params.get("user"),
             "source_data": params["source_data"],
             "limit": limit,
             "layout": layout

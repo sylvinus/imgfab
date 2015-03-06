@@ -54,6 +54,8 @@ export REDISCLOUD_URL=`heroku config:get REDISCLOUD_URL`
 export SKETCHFAB_API_KEY=`heroku config:get SKETCHFAB_API_KEY`
 export SOCIAL_AUTH_FACEBOOK_KEY=`heroku config:get SOCIAL_AUTH_FACEBOOK_KEY`
 export SOCIAL_AUTH_FACEBOOK_SECRET=`heroku config:get SOCIAL_AUTH_FACEBOOK_SECRET`
+export SOCIAL_AUTH_INSTAGRAM_ID=`heroku config:get SOCIAL_AUTH_INSTAGRAM_ID`
+export SOCIAL_AUTH_INSTAGRAM_SECRET=`heroku config:get SOCIAL_AUTH_INSTAGRAM_SECRET`
 
 # Then run a worker, a dashboard & the flask app:
 mrq-worker highpriority default &

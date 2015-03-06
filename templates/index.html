@@ -17,13 +17,20 @@
       <div class="panel panel-default">
       <div class="panel-body">
 
-        {% if user.username %}
-          <p>Welcome {{ user.first_name }}!</p>
-          <h4>2) Choose an album</h4>
-          <select id="facebook_albums"><option value="">Loading...</option></select>
+        {% if user.username or source == "instagram" %}
 
+          {% if user.username %}
+            <p>Welcome {{ user.first_name }}!</p>
+            <h4>Choose an album</h4>
+            <select id="facebook_albums"><option value="">Loading...</option></select>
+          {% else %}
+
+            <h4>Choose an Instagram account</h4>
+
+            https://instagram.com/<input type="text" id="instagram_username" />
+          {% endif %}
           <br/><br/>
-          <h4>3) Choose a layout</h4>
+          <h4>Choose a layout</h4>
           <select id="imgfab_layout">
             <option value="wall">Wall (Max: 3 x 30 photos)</option>
             <option value="cube">Cube (Max: 6 photos)</option>
@@ -43,8 +50,12 @@
 
         {% else %}
 
-        <h4>1) Choose a source for your photos</h4>
+        <h4>Choose a source for your photos</h4>
         <a class="btn btn-primary" href="{{ url_for("social.auth", backend="facebook") }}?next=/">Import from Facebook</a> <br />
+
+        <br/>or
+        <br/>
+        <a class="btn btn-primary" href="/instagram">Import from Instagram</a> <br />
 
         {% endif %}
 
@@ -120,56 +131,68 @@
           $("#facebook_albums").html(options.join(""));
         });
 
-        $("#go_create").on("click", function() {
-
-          $("#model_link").hide();
-          $("#model_loading").show();
-
-          $.ajax({
-            url: "/create_job",
-            data: {
-              "path": "process.Create3dGallery",
-              "params": JSON.stringify({
-                "source_name": "FacebookAlbum",
-                "source_data": {
-                  "album": $("#facebook_albums").val()
-                },
-                "layout": $("#imgfab_layout").val()
-              })
-            },
-            method:"POST",
-            dataType: "json",
-            success: function(data) {
-              var job_id = data.job_id;
-
-              poll_for_model(job_id);
-
-            }
-          })
-        });
-
-        var poll_for_model = function(job_id) {
-          $.getJSON("/get_job?job_id="+job_id, function(data) {
-            if (data.status == "success") {
-
-              $(".model_link_a").html(data.result.model_url);
-              $(".model_link_a").attr("href", data.result.model_url);
-              $("#model_link").show();
-              $("#model_loading").hide();
-
-            } else if (data.status == "failed") {
-              $("#model_loading").hide();
-              alert("There was an error creating your model. Please try again later!");
-            } else {
-              setTimeout(function() {
-                poll_for_model(job_id)
-              }, 5000);
-            }
-          });
-        }
-
-
     {% endif %}
+
+
+    $("#go_create").on("click", function() {
+
+      $("#model_link").hide();
+      $("#model_loading").show();
+
+      var params = {
+        "layout": $("#imgfab_layout").val()
+      };
+
+      if ($("#facebook_albums").val()) {
+        params["source_name"] = "FacebookAlbum";
+        params["source_data"] = {
+          "album": $("#facebook_albums").val()
+        }
+      } else {
+        params["source_name"] = "InstagramFeed";
+        params["source_data"] = {
+          "username": $("#instagram_username").val()
+        }
+      }
+
+      $.ajax({
+        url: "/create_job",
+        data: {
+          "path": "process.Create3dGallery",
+          "params": JSON.stringify(params)
+        },
+        method:"POST",
+        dataType: "json",
+        success: function(data) {
+          var job_id = data.job_id;
+
+          poll_for_model(job_id);
+
+        }
+      })
+    });
+
+    var poll_for_model = function(job_id) {
+      $.getJSON("/get_job?job_id="+job_id, function(data) {
+        if (data.status == "success") {
+
+          $(".model_link_a").html(data.result.model_url);
+          $(".model_link_a").attr("href", data.result.model_url);
+          $("#model_link").show();
+          $("#model_loading").hide();
+
+        } else if (data.status == "failed") {
+          $("#model_loading").hide();
+          alert("There was an error creating your model. Please try again later!");
+        } else {
+          setTimeout(function() {
+            poll_for_model(job_id)
+          }, 5000);
+        }
+      });
+    }
+
+
 
   });
 

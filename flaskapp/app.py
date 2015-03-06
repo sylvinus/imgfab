@@ -50,7 +50,7 @@ def data_facebook_albums():
 
 
 @app.route("/create_job", methods=["POST"])
-@login.login_required
+# @login.login_required
 def create_job():
     taskpath = request.form['path']
     taskparams = json.loads(request.form['params'])
@@ -58,7 +58,8 @@ def create_job():
     if taskpath.startswith("admin"):
         return None
 
-    taskparams["user"] = str(g.user.id)
+    if g.user.is_authenticated():
+        taskparams["user"] = str(g.user.id)
 
     job_id = queue_job("tasks.%s" % taskpath, taskparams)
 
@@ -66,7 +67,7 @@ def create_job():
 
 
 @app.route("/get_job")
-@login.login_required
+# @login.login_required
 def get_job():
 
     job_id = request.args['job_id']
@@ -74,8 +75,9 @@ def get_job():
     job = Job(job_id)
     job.fetch()
 
-    if job.data["params"].get("user") != str(g.user.id):
-        return "Unauthorized."
+    if job.data["params"].get("user"):
+        if not g.user.is_authenticated() or (job.data["params"].get("user") != str(g.user.id)):
+            return "Unauthorized."
 
     return json.dumps({k: v for k, v in job.data.iteritems() if k in ("status", "result")})
 
@@ -83,6 +85,11 @@ def get_job():
 @app.route('/')
 def main():
     return render_template('index.html')
+
+
+@app.route('/instagram')
+def main_instagram():
+    return render_template('index.html', source="instagram")
 
 
 @app.route('/logout')
