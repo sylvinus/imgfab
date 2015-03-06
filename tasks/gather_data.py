@@ -44,7 +44,7 @@ class InstagramFeed(Task):
     def run(self, params):
 
         from flaskapp.app import app
-        #from instagram.client import InstagramAPI
+        # from instagram.client import InstagramAPI
 
         # api = InstagramAPI(client_id=app.config["SOCIAL_AUTH_INSTAGRAM_ID"], client_secret=app.config["SOCIAL_AUTH_INSTAGRAM_SECRET"])
 
@@ -71,7 +71,7 @@ class InstagramFeed(Task):
         ))
 
         photos = [
-            x["images"]["standard_resolution"]["url"]
+            {"source": x["images"]["standard_resolution"]["url"]}
             for x in media.get("data", [])
             if x.get("images") and x["type"] == "image"
         ]
