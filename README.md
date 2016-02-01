@@ -11,6 +11,18 @@ How it works:
  - `tasks/upload_to_sketchfab.py`: Uploads the model to http://sketchfab.com
 
 
+Blockers
+========
+ - Sphere
+ - New name: picfab.co / pixfab.co ?
+ - ratio photos
+ - shadeless
+
+ - enboyer piece
+ - oauth avec pa / simplfy signup
+ - upload annotations
+
+
 TODO
 ====
 
