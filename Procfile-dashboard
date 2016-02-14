@@ -1,1 +1,1 @@
-web: mrq-dashboard
+web: MRQ_DASHBOARD_PORT=$PORT mrq-dashboard
