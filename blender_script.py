@@ -170,7 +170,7 @@ for i, image in enumerate(data["images"]):
         spacing2 = 0.798
 
         # Distance to the walls
-        wall1 = 1.19982
+        wall1 = 1.1995
         wall2 = 1.228
 
         # Height of the centers
