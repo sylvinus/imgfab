@@ -39,10 +39,11 @@ class Create3dGallery(Task):
 
         localdebug = params.get("localdebug")
 
+        subtask = wait_for_job
         if localdebug:
-            wait_for_job = run_task
+            subtask = run_task
 
-        tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
+        tmpdir = subtask("tasks.gather_data.%s" % params["source_name"], {
             "user": params.get("user"),
             "source_data": params["source_data"],
             "limit": limit,
@@ -52,11 +53,11 @@ class Create3dGallery(Task):
         if localdebug:
             os.system("open %s" % tmpdir)
 
-        wait_for_job("tasks.gather_data.DownloadImages", {
+        subtask("tasks.gather_data.DownloadImages", {
             "directory": tmpdir
         })
 
-        wait_for_job("tasks.create_model.CreateModel", {
+        subtask("tasks.create_model.CreateModel", {
             "directory": tmpdir,
             "layout": layout,
             "localdebug": localdebug
@@ -64,7 +65,7 @@ class Create3dGallery(Task):
 
         if not localdebug:
 
-            sketchfab_data = wait_for_job("tasks.upload_to_sketchfab.UploadToSketchfab", {
+            sketchfab_data = subtask("tasks.upload_to_sketchfab.UploadToSketchfab", {
                 "directory": tmpdir
             })
 
