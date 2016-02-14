@@ -39,7 +39,7 @@ app.context_processor(backends)
 login_manager = login.LoginManager()
 login_manager.init_app(app)
 
-if get_current_config() is None:
+if not get_current_config():
     setup_context()
 
 
