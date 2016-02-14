@@ -2,15 +2,21 @@
 
 # This script gets executed by Heroku on deploy, to fetch external dependencies.
 
-mkdir build
-cd build
+if [ "$IMGFAB_ROLE" = "dashboard" ] ; then
+	mv Procfile-dashboard Procfile
+else
 
-# Download Blender
-curl http://mirror.cs.umn.edu/blender.org/release/Blender2.73/blender-2.73a-linux-glibc211-x86_64.tar.bz2 > blender.tar.bz2
-tar jxf blender.tar.bz2
+	mkdir build
+	cd build
 
-# Add missing lib file, backporting a later binary :/
-curl "http://launchpadlibrarian.net/104847226/libxxf86vm1_1.1.2-1_amd64.deb" > lib.deb
-ar vx lib.deb
-tar -xzf data.tar.gz
-cp usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0 blender-2.73a-linux-glibc211-x86_64/lib/libXxf86vm.so.1
+	# Download Blender
+	curl http://mirror.cs.umn.edu/blender.org/release/Blender2.73/blender-2.73a-linux-glibc211-x86_64.tar.bz2 > blender.tar.bz2
+	tar jxf blender.tar.bz2
+
+	# Add missing lib file, backporting a later binary :/
+	curl "http://launchpadlibrarian.net/104847226/libxxf86vm1_1.1.2-1_amd64.deb" > lib.deb
+	ar vx lib.deb
+	tar -xzf data.tar.gz
+	cp usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0 blender-2.73a-linux-glibc211-x86_64/lib/libXxf86vm.so.1
+	
+fi
