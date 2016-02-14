@@ -13,9 +13,15 @@ class CreateModel(Task):
         if os.path.isfile(export_file):
             os.remove(export_file)
 
-        os.system("%s --debug --background --python %s -- %s" % (
+        cmdline = "%s --debug --background --python %s -- %s" % (
           blender_path, blender_script, params["directory"]
-        ))
+        )
+
+        if params.get("localdebug"):
+            print "Calling blender with:"
+            print cmdline
+
+        os.system(cmdline)
 
         if params.get("localdebug"):
             os.system("open %s" % export_file)

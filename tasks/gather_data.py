@@ -54,7 +54,7 @@ class InstagramFeed(Task):
         # media = api.user_recent_media(params["source_data"]["username"], 90, None)
         # print media
 
-        limit = 90
+        limit = int(params.get("limit", 90))
 
         user_search = get_json("https://api.instagram.com/v1/users/search?q=%s&client_id=%s" % (
             params["source_data"]["username"], app.config["SOCIAL_AUTH_INSTAGRAM_ID"]

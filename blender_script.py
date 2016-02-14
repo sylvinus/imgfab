@@ -40,7 +40,7 @@ def create_image_texture(image):
     return texture
 
 
-def create_plane_for_image(location, rotation, image):
+def create_plane_for_image(location, rotation, scale, image):
 
     bpy.ops.mesh.primitive_plane_add(
         location=location,
@@ -60,30 +60,38 @@ def create_plane_for_image(location, rotation, image):
     plane.data.materials.append(material)
     plane.data.uv_textures[0].data[0].image = img
 
+    if scale:
+        plane.scale = scale
 
-def setup_scene():
 
-    # Rmove the default cube
-    for ob in bpy.context.scene.objects:
-        ob.select = (ob.type == 'MESH' or ob.type == 'LAMP')
-        bpy.ops.object.delete()
+def setup_scene(layout):
 
-    # Add 2 HEMI lamps with opposite positions for 100% lighting. + 1 for walls :/
+    if layout in ["cube", "wall"]:
 
-    for lamp_i in [0, 1, 2]:
-        lamp_data = bpy.data.lamps.new(name="Lamp%s" % lamp_i, type='HEMI')
-        lamp_object = bpy.data.objects.new(name="Lamp%s" % lamp_i, object_data=lamp_data)
-        bpy.context.scene.objects.link(lamp_object)
-        lamp_object.location = [
-            [5, 5, 5],
-            [-5, -5, -5],
-            [0, -5, 0]
-        ][lamp_i]
-        lamp_object.rotation_euler = [
-            [-math.pi / 4, math.pi / 4, 0],
-            [5 * math.pi / 4, 0, 3 * math.pi / 4],
-            [math.pi / 2, 0, 0]
-        ][lamp_i]
+        # Rmove the default cube
+        for ob in bpy.context.scene.objects:
+            ob.select = (ob.type == 'MESH' or ob.type == 'LAMP')
+            bpy.ops.object.delete()
+
+        # Add 2 HEMI lamps with opposite positions for 100% lighting. + 1 for walls :/
+
+        for lamp_i in [0, 1, 2]:
+            lamp_data = bpy.data.lamps.new(name="Lamp%s" % lamp_i, type='HEMI')
+            lamp_object = bpy.data.objects.new(name="Lamp%s" % lamp_i, object_data=lamp_data)
+            bpy.context.scene.objects.link(lamp_object)
+            lamp_object.location = [
+                [5, 5, 5],
+                [-5, -5, -5],
+                [0, -5, 0]
+            ][lamp_i]
+            lamp_object.rotation_euler = [
+                [-math.pi / 4, math.pi / 4, 0],
+                [5 * math.pi / 4, 0, 3 * math.pi / 4],
+                [math.pi / 2, 0, 0]
+            ][lamp_i]
+
+    elif layout == "louvre":
+        bpy.ops.wm.open_mainfile(filepath="3dmodels/louvre.blend")
 
 
 directory = sys.argv[-1]
@@ -96,13 +104,14 @@ with open(os.path.join(directory, "images.json"), "r") as f:
 layout = data.get("layout", "cube")
 
 
-setup_scene()
+setup_scene(layout)
 
 images_count = len(data["images"])
 
 for i, image in enumerate(data["images"]):
     location = None
     rotation = None
+    scale = None
 
     if layout == "cube":
         location = [
@@ -150,9 +159,52 @@ for i, image in enumerate(data["images"]):
         location = (distance * math.cos(angle), distance * math.sin(angle) - offset, height)
         rotation = (math.pi / 2, 0, (math.pi / 2) + angle)
 
+    elif layout == "louvre":
+
+        face = int(i / 3)
+        pos = i % 3
+        size = i % 2
+
+        # Space between picture centers
+        spacing1 = 0.82
+        spacing2 = 0.798
+
+        # Distance to the walls
+        wall1 = 1.19982
+        wall2 = 1.228
+
+        # Height of the centers
+        height = -0.426
+
+        rotation = (3 * math.pi / 2, 2 * math.pi / 2, (face + 1) * math.pi / 2)
+
+        if size == 0:
+            scale = (0.232, 0.232, 0.232)
+        else:
+            scale = (0.175, 0.175, 0.175)
+
+        location = [
+            (wall1, spacing1, height),
+            (wall1, 0, height),
+            (wall1, -spacing1, height),
+
+            (spacing2, wall2, height),
+            (0, wall2, height),
+            (-spacing2, wall2, height),
+
+            (-wall1, -spacing1, height),
+            (-wall1, 0, height),
+            (-wall1, spacing1, height),
+
+            (spacing2, -wall2, height),
+            (0, -wall2, height),
+            (-spacing2, -wall2, height)
+        ][i]
+
     create_plane_for_image(
         location=location,
         rotation=rotation,
+        scale=scale,
         image=image
     )
 

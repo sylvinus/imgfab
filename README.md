@@ -61,13 +61,18 @@ heroku addons:add mongolab
 To test locally you can pull the config variables:
 
 ```
-export MONGOLAB_URI=`heroku config:get MONGOLAB_URI`
-export REDISCLOUD_URL=`heroku config:get REDISCLOUD_URL`
-export SKETCHFAB_API_KEY=`heroku config:get SKETCHFAB_API_KEY`
-export SOCIAL_AUTH_FACEBOOK_KEY=`heroku config:get SOCIAL_AUTH_FACEBOOK_KEY`
-export SOCIAL_AUTH_FACEBOOK_SECRET=`heroku config:get SOCIAL_AUTH_FACEBOOK_SECRET`
-export SOCIAL_AUTH_INSTAGRAM_ID=`heroku config:get SOCIAL_AUTH_INSTAGRAM_ID`
-export SOCIAL_AUTH_INSTAGRAM_SECRET=`heroku config:get SOCIAL_AUTH_INSTAGRAM_SECRET`
+
+# If you installed blender with homebrew:
+export BLENDER_PATH=/opt/homebrew-cask/Caskroom/blender/2.76b/blender-2.76b-OSX_10.6-x86_64/blender.app/Contents/MacOS/blender
+
+# Get config from prod
+export MONGOLAB_URI=`heroku config:get -a imgfab MONGOLAB_URI`
+export REDISCLOUD_URL=`heroku config:get -a imgfab REDISCLOUD_URL`
+export SKETCHFAB_API_KEY=`heroku config:get -a imgfab SKETCHFAB_API_KEY`
+export SOCIAL_AUTH_FACEBOOK_KEY=`heroku config:get -a imgfab SOCIAL_AUTH_FACEBOOK_KEY`
+export SOCIAL_AUTH_FACEBOOK_SECRET=`heroku config:get -a imgfab SOCIAL_AUTH_FACEBOOK_SECRET`
+export SOCIAL_AUTH_INSTAGRAM_ID=`heroku config:get -a imgfab SOCIAL_AUTH_INSTAGRAM_ID`
+export SOCIAL_AUTH_INSTAGRAM_SECRET=`heroku config:get -a imgfab SOCIAL_AUTH_INSTAGRAM_SECRET`
 
 # Then run a worker, a dashboard & the flask app:
 mrq-worker highpriority default &

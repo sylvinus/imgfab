@@ -32,8 +32,10 @@
           <br/><br/>
           <h4>Choose a layout</h4>
           <select id="imgfab_layout">
+            <option value="louvre">Louvre room (Max: 12 photos)</option>
             <option value="wall">Wall (Max: 3 x 30 photos)</option>
             <option value="cube">Cube (Max: 6 photos)</option>
+
           </select>
           <br/><br/>
 
@@ -76,7 +78,7 @@
       <p>We have a rough <a href="https://github.com/sylvinus/imgfab#todo">TODO list</a> but we'd love to hear your ideas! Contact us at <a href="mailto:contact@imgfab.io">contact@imgfab.io</a></p>
 
       <h3>Privacy policy</h3>
-      <p>We don't store your photos. You can safely disconnect after creating your gallery.</p>
+      <p>imgfab doesn't store your photos. You can safely disconnect after creating your gallery.</p>
       {% for assoc in backends.associated %}
           <form method="post" action="{{ url_for("social.disconnect", backend=assoc.provider, association_id=assoc.id) }}?next=/logout">
             <button class="btn btn-default btn-xs">Disconnect from {{ assoc.provider }}</button>

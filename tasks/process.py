@@ -24,6 +24,7 @@ def wait_for_job(path, params):
             ))
 
 
+# mrq-run tasks.process.Create3dGallery '{"localdebug":1, "source_name": "InstagramFeed", "layout": "louvre", "source_data": {"username": "nineinchnails"}}'
 class Create3dGallery(Task):
 
     def run(self, params):
@@ -32,10 +33,14 @@ class Create3dGallery(Task):
 
         limit = params.get("limit", {
             "cube": 6,
-            "wall": 90
+            "wall": 90,
+            "louvre": 12
         }.get(layout, 10))
 
         localdebug = params.get("localdebug")
+
+        if localdebug:
+            wait_for_job = run_task
 
         tmpdir = wait_for_job("tasks.gather_data.%s" % params["source_name"], {
             "user": params.get("user"),
