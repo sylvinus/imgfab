@@ -55,6 +55,7 @@ def create_plane_for_image(location, rotation, scale, image):
 
     texture = create_image_texture(img)
     material = create_material_for_texture(texture)
+    material.specular_intensity = 0
 
     plane.data.uv_textures.new()
     plane.data.materials.append(material)
@@ -170,8 +171,8 @@ for i, image in enumerate(data["images"]):
         spacing2 = 0.798
 
         # Distance to the walls
-        wall1 = 1.1995
-        wall2 = 1.228
+        wall1 = 1.196  # 1.1995
+        wall2 = 1.225  # 1.228
 
         # Height of the centers
         height = -0.426

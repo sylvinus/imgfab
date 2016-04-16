@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Instamuseum - Create amazing 3D photo galleries on Sketchfab!</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='instamuseum/css/bootstrap.min.css') }}" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='instamuseum/font-awesome/css/font-awesome.min.css') }}" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='instamuseum/css/animate.min.css') }}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='instamuseum/css/creative.css') }}" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" target="_blank" href="https://sketchfab.com/developers">The API</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" target="_blank" href="https://www.sketchfab.com">Go to Sketchfab</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>Instamuseum</h1>
+                <hr>
+                <p>Create amazing 3D photo galleries on <a href="http://sketchfab.com" style="color: #85c8f0" target="_blank">Sketchfab</a>! </p>
+                <a href="#start" class="btn btn-primary btn-xl page-scroll">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+<section id="start">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Create your own 3D gallery</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+
+                    <div class="panel panel-default">
+      <div class="panel-body">
+
+
+          <h4>Choose an Instagram account</h4>
+
+          https://instagram.com/<input type="text" class="sketchfab-connect-watch" id="instagram_username" value="{{ request.args.get('instagram_username', '') }}" />
+
+          <br/><br/>
+          <h4>Choose a layout</h4>
+          <select id="imgfab_layout" class="sketchfab-connect-watch">
+            <option {% if request.args.get('imgfab_layout') == "louvre" %}selected='selected'{% endif %} value="louvre">Louvre room (Max: 12 photos)</option>
+            <option {% if request.args.get('imgfab_layout') == "wall" %}selected='selected'{% endif %} value="wall">Wall (Max: 3 x 30 photos)</option>
+            <option {% if request.args.get('imgfab_layout') == "cube" %}selected='selected'{% endif %} value="cube">Cube (Max: 6 photos)</option>
+
+          </select>
+          <br/><br/>
+
+          {% if user.username %}
+
+            <button id="go_create" class="btn btn-primary btn-xl">Create 3D Gallery!</button>
+
+          {% else %}
+
+              <!-- If we are not yet logged into sketchfab, login first then come back here and auto-start the gallery -->
+
+              <a class="btn btn-primary btn-xl sketchfab-connect-button" href="{{ url_for("social.auth", backend="sketchfab") }}?next=/%3Fcreate%3D1">Create 3D Gallery!</a>
+
+          {% endif %}
+
+          <br/><br/>
+
+          <div id="model_loading" style="display:none;" class="alert alert-info" role="alert">
+            3D gallery is being created, please wait... This will take a few minutes.
+            <br/><br/><div class="model_loading_status"></div>
+          </div>
+          <div id="model_link" style="display:none;" class="alert alert-success" role="alert">
+            Congrats! Your 3D gallery is available here:<br/> <a target="_blank" href="" class="model_link_a"></a>
+            <br/><br/><div class="model_share"></div>
+          </div>
+
+          {% for assoc in backends.associated %}
+              <form method="post" action="{{ url_for("social.disconnect", backend=assoc.provider, association_id=assoc.id) }}?next=/logout">
+                <button class="btn btn-default btn-xs">Disconnect from {{ assoc.provider }}</button>
+              </form>
+          {% endfor %}
+
+      </div></div>
+
+
+            <div id="model_embed"></div>
+            <div class="model_share"></div>
+
+                    <!-- END SKFB TOOL-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" style="background: #edf0f2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">About</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+                        <h3>How it works</h3>
+                        <p class="text-muted">We use <a href="http://blender.org/">Blender</a> to generate dynamic 3D models and upload them with the <a href="https://sketchfab.com/developers" target="_blank">Sketchfab API</a>.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-cloud-download wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Make it your own</h3>
+                        <p class="text-muted">Full source is available on <a href="http://github.com/sylvinus/imgfab" target="_blank">GitHub</a>. Feel free to fork it and create your own crazy 3D models!</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-thumbs-o-up wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Feedback?</h3>
+                        <p class="text-muted">We have a rough <a href="https://github.com/sylvinus/imgfab#todo" target="_blank">TODO list</a> but we'd love to hear your ideas! Feel free to <a href="https://github.com/sylvinus/imgfab/issues" target="_blank">open an issue</a> on GitHub or post in <a href="https://forum.sketchfab.com/" target="_blank">forum.sketchfab.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="no-padding" id="portfolio" style="display: none">
+
+    <!-- // FOR FEATURED SKETCHFAB INSTAMUSEUMS MADE BY USERS:
+    -->
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/1.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/2.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/3.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/4.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/5.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="/static/instamuseum/img/portfolio/6.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Using the Sketchfab API is super simple.</h2>
+                    <hr class="primary">
+                    <p>Ready to create 3d models with your web app? That's great! <br />Check the documentation and give it a try.</p>
+                </div>
+
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p><a href="https://sketchfab.com/developers"><i class="fa fa-file-o fa-3x wow bounceIn" data-wow-delay=".1s"></i><br />
+                    sketchfab.com/developers</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='instamuseum/js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='instamuseum/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='instamuseum/js/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='instamuseum/js/jquery.fittext.js') }}"></script>
+    <script src="{{ url_for('static', filename='instamuseum/js/wow.min.js') }}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ url_for('static', filename='instamuseum/js/creative.js') }}"></script>
+
+<a href="https://github.com/sylvinus/imgfab" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0; z-index:9999" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+
+<script>
+  $(function() {
+
+
+    $(".sketchfab-connect-watch").on("change keyup", function() {
+        console.log("yo");
+        var url = $(".sketchfab-connect-button")[0].getAttribute("href");
+        var next_url = "/?create=1&instagram_username="+$("#instagram_username").val() + "&imgfab_layout=" +$("#imgfab_layout").val() + "#start";
+        url = url.replace(/next=.*/, "next="+encodeURIComponent(next_url));
+        $(".sketchfab-connect-button")[0].setAttribute("href", url);
+    });
+
+
+    $("#go_create").on("click", function() {
+        create_gallery();
+    });
+
+    var create_gallery = function() {
+
+      var params = {
+        "layout": $("#imgfab_layout").val(),
+        "brand": "instamuseum"
+      };
+
+      if ($("#facebook_albums").val()) {
+        params["source_name"] = "FacebookAlbum";
+        params["source_data"] = {
+          "album": $("#facebook_albums").val()
+        }
+      } else {
+
+        if (!$("#instagram_username").val()) {
+            return alert("Please enter an Instagram username!");
+        }
+
+        params["source_name"] = "InstagramFeed";
+        params["source_data"] = {
+          "username": $("#instagram_username").val()
+        }
+      }
+
+      $("#model_link").hide();
+      $("#go_create").hide();
+      $("#model_loading").show();
+
+      $.ajax({
+        url: "/create_job",
+        data: {
+          "path": "process.Create3dGallery",
+          "params": JSON.stringify(params)
+        },
+        method:"POST",
+        dataType: "json",
+        success: function(data) {
+          var job_id = data.job_id;
+
+          poll_for_model(job_id);
+
+          // Trigger some fake processing events to make the user wait a bit.
+          setTimeout(function() {
+            $(".model_loading_status").html("Downloading images from Instagram...");
+          }, 5000);
+
+          setTimeout(function() {
+            $(".model_loading_status").html("Building 3D model...");
+          }, 20000);
+
+          setTimeout(function() {
+            $(".model_loading_status").html("Exporting Blender file...");
+          }, 40000);
+
+          setTimeout(function() {
+            $(".model_loading_status").html("Uploading to Sketchfab...");
+          }, 60000);
+
+          setTimeout(function() {
+            $(".model_loading_status").html("Waiting for Sketchfab to process the model...");
+          }, 90000);
+
+        }
+      });
+
+      // Remove parameters from the URL
+      if (history && history.pushState) {
+        setTimeout(function() {
+            history.pushState({}, "Instamuseum", "/");
+        }, 2000);
+
+      }
+
+    };
+
+    var poll_for_model = function(job_id) {
+      $.getJSON("/get_job?job_id="+job_id, function(data) {
+        if (data.status == "success") {
+
+          $("#model_embed").html(
+            '<br/><iframe width="640" height="480" src="'+data.result.model_url+'/embed?autostart=1" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe><br/><br/>'
+            );
+
+          $(".model_share").html('<iframe src="https://www.facebook.com/plugins/share_button.php?href='+encodeURIComponent(data.result.model_url)+'&layout=button_count&mobile_iframe=false&width=87&height=20&appId" width="87" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe><br/>');
+
+          $(".model_link_a").html(data.result.model_url);
+          $(".model_link_a").attr("href", data.result.model_url);
+          $("#model_link").show();
+          $("#model_loading").hide();
+
+        } else if (data.status == "failed") {
+          $("#model_loading").hide();
+          alert("There was an error creating your model. Please try again later!");
+        } else {
+          setTimeout(function() {
+            poll_for_model(job_id)
+          }, 5000);
+        }
+      });
+    }
+
+    {% if user.username and request.args.get('create') == "1" %}
+        create_gallery();
+    {% endif %}
+
+
+  });
+
+</script>
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-59790235-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</body>
+
+</html>

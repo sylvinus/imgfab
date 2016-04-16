@@ -10,8 +10,8 @@ import time
 # Creates end-to-end tasks
 
 
-def wait_for_job(path, params):
-    job_id = queue_job(path, params)
+def wait_for_job(path, params, **kwargs):
+    job_id = queue_job(path, params, **kwargs)
 
     while True:
         time.sleep(5)
@@ -30,6 +30,7 @@ class Create3dGallery(Task):
     def run(self, params):
 
         layout = params.get("layout", "cube")
+        brand = params.get("brand", "imgfab")
 
         limit = params.get("limit", {
             "cube": 6,
@@ -41,7 +42,9 @@ class Create3dGallery(Task):
 
         subtask = wait_for_job
         if localdebug:
-            subtask = run_task
+            def subtask(*args, **kwargs):
+                kwargs.pop("queue", None)
+                return run_task(*args, **kwargs)
 
         tmpdir = subtask("tasks.gather_data.%s" % params["source_name"], {
             "user": params.get("user"),
@@ -66,7 +69,11 @@ class Create3dGallery(Task):
         if not localdebug:
 
             sketchfab_data = subtask("tasks.upload_to_sketchfab.UploadToSketchfab", {
-                "directory": tmpdir
+                "directory": tmpdir,
+                "source_data": params["source_data"],
+                "layout": layout,
+                "brand": brand,
+                "user": params.get("user")
             })
 
             shutil.rmtree(tmpdir)

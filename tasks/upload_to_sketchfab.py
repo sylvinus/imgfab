@@ -20,22 +20,32 @@
 from mrq.task import Task
 import os
 import requests
+import json
 from time import sleep
 import random
+from flaskapp.models import User
 
 
 SKETCHFAB_DOMAIN = 'sketchfab.com'
 SKETCHFAB_API_URL = 'https://api.{}/v2/models'.format(SKETCHFAB_DOMAIN)
 SKETCHFAB_MODEL_URL = 'https://{}/models/'.format(SKETCHFAB_DOMAIN)
 
-YOUR_API_TOKEN = os.getenv("SKETCHFAB_API_KEY")
+SKETCHFAB_API_KEY = os.getenv("SKETCHFAB_API_KEY")
 
 
 class UploadToSketchfab(Task):
 
+    sketchfab_api_key = SKETCHFAB_API_KEY
+
     def run(self, params):
 
+        # Instamuseum uploads on user's accounts!
+        if params["brand"] == "instamuseum":
+            user = User.objects.get(id=params["user"])
+            self.sketchfab_api_key = user.get_social_auth("sketchfab").extra_data['apiToken']
+
         directory = params["directory"]
+        layout = params["layout"]
 
         rand = random.randint(100000000, 9999999999)
 
@@ -54,14 +64,22 @@ class UploadToSketchfab(Task):
         # Mandatory parameters
 
         # Optional parameters
-        name = params.get("name", "imgfab #%s" % rand)
-        description = params.get("description", "Created with http://imgfab.io")
-        password = ""  # requires a pro account
-        private = 0  # requires a pro account
-        tags = "imgfab"  # space-separated list of tags
+        if params["brand"] == "instamuseum":
+            instagram_username = params["source_data"]["username"].strip().replace("/", "")
+            name = params.get("name", "Instamuseum for @%s" % instagram_username)
+            description = params.get("description", "Created with http://www.instamuseum.com\nOriginal photos at https://www.instagram.com/%s" % instagram_username)
+            password = ""  # requires a pro account
+            private = 0  # requires a pro account
+            tags = "instamuseum"  # space-separated list of tags
+        else:
+            name = params.get("name", "imgfab #%s" % rand)
+            description = params.get("description", "Created with http://imgfab.io")
+            password = ""  # requires a pro account
+            private = 0  # requires a pro account
+            tags = "imgfab"  # space-separated list of tags
 
         data = {
-            'token': YOUR_API_TOKEN,
+            'token': self.sketchfab_api_key,
             'name': name,
             'description': description,
             'tags': tags,
@@ -78,6 +96,7 @@ class UploadToSketchfab(Task):
         try:
             model_uid = self.upload(data, files)
             self.poll_processing_status(model_uid)
+            self.set_3d_options(model_uid, layout)
         finally:
             f.close()
 
@@ -115,7 +134,7 @@ class UploadToSketchfab(Task):
         """
         Poll the Sketchfab API to query the processing status
         """
-        polling_url = "{}/{}/status?token={}".format(SKETCHFAB_API_URL, model_uid, YOUR_API_TOKEN)
+        polling_url = "{}/{}/status?token={}".format(SKETCHFAB_API_URL, model_uid, self.sketchfab_api_key)
         max_errors = 10
         errors = 0
         retry = 0
@@ -166,3 +185,40 @@ class UploadToSketchfab(Task):
             retry += 1
 
         print "Stopped polling after too many retries or too many errors"
+
+    def set_3d_options(self, model_uid, layout):
+        """ Fix camera starting point and lighting on the 3D model. """
+
+        headers = {'content-type': 'application/json'}
+        data = False
+
+        if layout == "louvre":
+
+            # TODO dump these options in a JSON file next to the model to better encapsulate specifics?
+            data = {'options': {
+                'camera': {
+                    'position': [-0.5655142694766133, -0.17883883950099416, -0.5158722758070228],
+                    'target': [-0.2785130611382468, -0.11043290142066092, -0.5412130323100272]
+                },
+
+                # Bryant park environment
+                'environment': {
+                    'backgroundExposure': 1,
+                    'blur': 0.1,
+                    'enable': True,
+                    'exposure': 5.37483797816,
+                    'rotation': 0,
+                    'uid': 'e73867d210de4bc2b5eb261738cf3e79'
+                }
+            }}
+
+        print "Sending", data
+        if data:
+
+            r = requests.patch(
+                'https://api.sketchfab.com/v2/models/{}?token={}'.format(model_uid, self.sketchfab_api_key),
+                headers=headers,
+                data=json.dumps(data)
+            )
+
+            print "Sketchfab API returns", r.status_code

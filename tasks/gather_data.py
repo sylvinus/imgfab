@@ -55,15 +55,23 @@ class InstagramFeed(Task):
         # print media
 
         limit = int(params.get("limit", 90))
+        username = params["source_data"]["username"].strip().replace("/", "")
 
         user_search = get_json("https://api.instagram.com/v1/users/search?q=%s&client_id=%s" % (
-            params["source_data"]["username"], app.config["SOCIAL_AUTH_INSTAGRAM_ID"]
+            username, app.config["SOCIAL_AUTH_INSTAGRAM_ID"]
         ))
 
         if len(user_search.get("data", [])) == 0:
             return None
 
-        user_id = user_search["data"][0]["id"]
+        user_id = None
+        for apiuser in user_search["data"]:
+            if apiuser["username"] == username:
+                user_id = apiuser["id"]
+                break
+
+        if not user_id:
+            return None
 
         # TODO pagination, we might not get only images...
         media = get_json("https://api.instagram.com/v1/users/%s/media/recent?client_id=%s&count=%s" % (
@@ -100,6 +108,7 @@ class DownloadImages(Task):
             data = json.load(f)
 
         for i, image in enumerate(data["images"]):
+            print "Downloading %s" % image["source"]
             fn = os.path.join(directory, "%s.jpg" % i)
             with open(fn, "wb") as f:
                 f.write(requests.get(image["source"]).content)

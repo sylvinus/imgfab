@@ -8,3 +8,7 @@ REDIS = os.getenv("REDISCLOUD_URL")
 
 if os.getenv("MRQ_DASHBOARD_HTTPAUTH"):
   DASHBOARD_HTTPAUTH = os.getenv("MRQ_DASHBOARD_HTTPAUTH")
+
+TASKS = {
+    "mrq.basetasks.utils.JobAction": {"queue": "highpriority"}
+}

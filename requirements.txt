@@ -1,10 +1,12 @@
 requests==2.5.1
 mrq==0.1.18
 Flask==0.10.1
-python-social-auth==0.2.1
 Flask-Bootstrap==3.3.0.1
 flask-appconfig==0.9.1
 mongoengine==0.10.6
 flask-login==0.2.11
 gunicorn==19.2.1
 flask_mongoengine==0.7.5
+
+# python-social-auth==0.2.1
+-e git+https://github.com/sylvinus/python-social-auth.git@78182009603e37b3af77748687c98c5c2d84b92b#egg=python-social-auth

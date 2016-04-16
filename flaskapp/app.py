@@ -23,7 +23,10 @@ sys.path.append(os.path.abspath(os.path.join(__file__, '../..')))
 
 DEBUG = bool(os.getenv("IMGFAB_DEBUG"))
 
-app = Flask('imgfab')
+app = Flask(
+    'imgfab'
+)
+
 AppConfig(app, os.path.abspath(os.path.join(__file__, '../settings.py')))
 Bootstrap(app)
 
@@ -61,7 +64,7 @@ def create_job():
     if g.user.is_authenticated():
         taskparams["user"] = str(g.user.id)
 
-    job_id = queue_job("tasks.%s" % taskpath, taskparams)
+    job_id = queue_job("tasks.%s" % taskpath, taskparams, queue="3d")
 
     return json.dumps({"job_id": str(job_id)})
 
@@ -84,12 +87,15 @@ def get_job():
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    if "instamuseum.com" in request.host:
+        return render_template('instamuseum/index.html')
+    else:
+        return render_template('imgfab/index.html')
 
 
 @app.route('/instagram')
 def main_instagram():
-    return render_template('index.html', source="instagram")
+    return render_template('imgfab/index.html', source="instagram")
 
 
 @app.route('/logout')
