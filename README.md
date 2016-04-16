@@ -1,44 +1,29 @@
-imgfab
-======
+imgfab / instamuseum
+====================
 
 Because your Facebook photos are so 2D!
 
 How it works:
 
- - Facebook connect => List of images & descriptions from a user, saved as JSON
+ - Facebook connect or Instagram => List of images & descriptions from a user, saved as JSON
  - `tasks/gather_data.py`: Downloads all the images in a temporary directory
  - `tasks/create_model.py`: Creates a blender model from the directory
  - `tasks/upload_to_sketchfab.py`: Uploads the model to http://sketchfab.com
-
-
-Blockers
-========
- - Sphere
- - New name: picfab.co / pixfab.co ?
- - ratio photos
- - shadeless
-
- - enboyer piece
- - oauth avec pa / simplfy signup
- - upload annotations
 
 
 TODO
 ====
 
  - Adapt plane size to the photo ratio / crop differently
- - New layouts (sphere, museum room)
- - Background image
- - Set sketchfab name from album name
- - Make 2 mrq queues to avoid runing out of greenlets if load grows
+ - Facebook: Set sketchfab name from album name
  - Show FB album photo count (+ thumbnails?)
  - Much more exception handling
- - User-supplied Sketchfab API keys
  - Other photo sources: Twitter, Instagram, Flickr, URL list
  - Nicer 3D rendering/lighting
- - Upload with annotations
+ - Upload with annotations/hotspots
  - Favicon / Logo
- - Share result
+ - Fix photo ratio on other layouts than museum
+ - New layouts (sphere, larger rooms, ...)
 
 
 Host your own instance on Heroku!

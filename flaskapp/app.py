@@ -64,7 +64,7 @@ def create_job():
     if g.user.is_authenticated():
         taskparams["user"] = str(g.user.id)
 
-    job_id = queue_job("tasks.%s" % taskpath, taskparams, queue="3d")
+    job_id = queue_job("tasks.%s" % taskpath, taskparams)
 
     return json.dumps({"job_id": str(job_id)})
 
