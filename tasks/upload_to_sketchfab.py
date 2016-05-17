@@ -67,7 +67,7 @@ class UploadToSketchfab(Task):
         if params["brand"] == "instamuseum":
             instagram_username = params["source_data"]["username"].strip().replace("/", "")
             name = params.get("name", "Instamuseum for @%s" % instagram_username)
-            description = params.get("description", "Created with http://www.instamuseum.com\nOriginal photos at https://www.instagram.com/%s" % instagram_username)
+            description = params.get("description", "Created with http://www.instamuseum.com\n\nOriginal photos at https://www.instagram.com/%s" % instagram_username)
             password = ""  # requires a pro account
             private = 0  # requires a pro account
             tags = "instamuseum"  # space-separated list of tags

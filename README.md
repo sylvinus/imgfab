@@ -24,6 +24,9 @@ TODO
  - Favicon / Logo
  - Fix photo ratio on other layouts than museum
  - New layouts (sphere, larger rooms, ...)
+ - link to sketchfab tag
+ - layout gallery
+ - remove form when model generating
 
 
 Host your own instance on Heroku!
