@@ -27,6 +27,14 @@ TODO
  - link to sketchfab tag
  - layout gallery
  - remove form when model generating
+ - tweak wording to add VR
+ - New description:
+
+```
+ Created with [Instamuseum](http://www.instamuseum.com).
+
+Original photos on Instagram at  [Sketchfabulous](https://www.instagram.com/sketchfabulous).
+```
 
 
 Host your own instance on Heroku!
