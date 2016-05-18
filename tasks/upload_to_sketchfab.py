@@ -84,7 +84,8 @@ class UploadToSketchfab(Task):
             'description': description,
             'tags': tags,
             'private': private,
-            'password': password
+            'password': password,
+            'source': 'instamuseum'
         }
 
         f = open(model_file, 'rb')
