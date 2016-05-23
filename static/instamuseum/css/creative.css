@@ -474,3 +474,71 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #222;
 }
+.form-prefixed-input .prefix {
+	display:inline-block;
+    -webkit-box-flex: 0;
+    -webkit-flex: none;
+    -ms-flex: none;
+    flex: none;
+    cursor: text;
+	color: #888888;
+    font-weight: normal;
+    }
+.form-prefixed-input input {
+    -webkit-box-flex: 1;
+    -webkit-flex: auto;
+    -ms-flex: auto;
+    flex: auto;
+    border: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background: 0 0;
+	outline: none;
+	line-height: 20px;
+    border: 0px;
+    height: 25px;
+    outline: 0px;
+    margin-left: -4px;
+    }
+    
+.form-input, .form-listbox, .form-prefixed-input {
+    display: block;
+    box-sizing: content-box;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    font-family: sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    height: 25px;
+    background: #fff;
+    outline: none;
+    }
+    
+.form-prefixed-input {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.form-input, .form-listbox, .form-prefixed-input {
+    display: block;
+    box-sizing: content-box;
+    font-size: 15px;
+    line-height: 25px;
+    height: 25px;
+    background: #fff;
+    outline: none;
+    border: 2px solid #d1d1d1;
+    border-radius: 4px;
+	padding:10px;
+	width: 40%;
+	margin: auto;
+    }
+.sketchfab-connect-watch{
+	outline: none;
+	}
+.form-control{
+	width:43%;
+	margin: auto;}
