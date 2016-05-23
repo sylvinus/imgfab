@@ -6,16 +6,27 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Turn your Instagram pictures into a virtual museum in one click. Walk into your photo gallery in VR.">
     <meta name="author" content="">
+    
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:url" content="http://www.instamuseum.com" />
+    <meta property="twitter:image" content="http://www.instamuseum.com/static/instamuseum/img/header.jpg" />
 
-    <title>Instamuseum - Create amazing 3D photo galleries on Sketchfab!</title>
+
+    <meta property="og:title" content="Instamuseum: Turn Your Instagram Photos into a Virtual Reality Gallery"/>
+    <meta property="og:image" content="http://www.instamuseum.com/static/instamuseum/img/header.jpg"/>
+    <meta property="og:site_name" content="Instamuseum"/>
+    <meta property="og:description" content="Turn your Instagram pictures into a virtual museum in one click. Walk into your photo gallery in VR."/>
+
+
+    <title>Instamuseum: Turn Your Instagram Photos into a Virtual Reality Gallery</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='instamuseum/css/bootstrap.min.css') }}" type="text/css">
 
-    <link rel="shortcut icon" href="static/instamuseum/img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="static/instamuseum/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" type="image/x-icon">
     
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -41,27 +52,21 @@
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a class="page-scroll" href="http://www.instamuseum.com">Home</a>
+                    </li>
+                    <li>
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" target="_blank" href="https://sketchfab.com/developers">The API</a>
+                        <a class="page-scroll" target="_blank" href="https://sketchfab.com/developers">API</a>
                     </li>
                     <li>
-                        <a class="page-scroll" target="_blank" href="https://www.sketchfab.com">Go to Sketchfab</a>
+                        <a class="page-scroll" target="_blank" href="https://sketchfab.com">Go to Sketchfab</a>
                     </li>
                 </ul>
             </div>
@@ -73,9 +78,13 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1>Instamuseum</h1>
+                <h1 style="font-size: 60px;"><img src="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" style="height:100px"/>Instamuseum</h1>
                 <hr>
-                <p>Create amazing 3D photo galleries on <a href="http://sketchfab.com" style="color: #85c8f0" target="_blank">Sketchfab</a>! </p>
+              <div style="display:none">  <p>Turn your Instagram pictures into a virtual museum in one click! </p>
+                <p>Your Instagram, in VR</p>
+                <p>Walk into your Instagram gallery</p>
+                <p>Turn Your Instagram Photos into a Virtual Reality Gallery</p>
+                </div>
                 <a href="#start" class="btn btn-primary btn-xl page-scroll">Get Started</a>
             </div>
         </div>
@@ -95,16 +104,17 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
 
                     <div class="panel panel-default">
-      <div class="panel-body">
+      <div class="panel-body form-group">
 
-
-          <h4>Choose an Instagram account</h4>
-
-          https://instagram.com/<input type="text" class="sketchfab-connect-watch" id="instagram_username" value="{{ request.args.get('instagram_username', '') }}" />
-
-          <br/><br/>
-          <h4>Choose a layout</h4>
-          <select id="imgfab_layout" class="sketchfab-connect-watch">
+          <h4>Choose any Instagram account</h4>
+<label class="form-prefixed-input">
+                        <div class="prefix">instagram.com/</div>
+                        <input type="text" class="sketchfab-connect-watch" id="instagram_username" value="{{ request.args.get('instagram_username', '') }}" />
+</label>
+        
+          <br/>
+         <h4>Select a layout</h4>
+          <select id="imgfab_layout" class="form-control" class="sketchfab-connect-watch">
             <option {% if request.args.get('imgfab_layout') == "louvre" %}selected='selected'{% endif %} value="louvre">Louvre room (Max: 12 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "wall" %}selected='selected'{% endif %} value="wall">Wall (Max: 3 x 30 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "cube" %}selected='selected'{% endif %} value="cube">Cube (Max: 6 photos)</option>
@@ -150,8 +160,58 @@
                     <!-- END SKFB TOOL-->
                 </div>
             </div>
+          <center>   
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="Sketchfab" data-size="medium" data-related="Sketchfab">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+&nbsp; <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.instamuseum.com&width=50&layout=button&action=like&show_faces=false&share=false&height=20&appId=272479259760201" width="50" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+&nbsp; <a class="github-button" href="https://github.com/sylvinus/imgfab/fork" aria-label="Fork sylvinus/imgfab on GitHub">Fork</a>
+</center>
+                   </div>
+    </section>
+
+ <section id="portfolio">
+	 <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Some examples:</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-4 col-sm-6">
+                    <iframe width="480" height="300" src="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                    <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
+    <a href="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @nineinchnails</a>
+    by <a href="https://sketchfab.com/sylvinus?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">sylvinus</a>
+    on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+</p>
+
+
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                        <iframe width="480" height="300" src="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                        <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
+    <a href="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @albandenoyel</a>
+    by <a href="https://sketchfab.com/alban?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">alban</a>
+    on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+</p>
+
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <iframe width="480" height="300" src="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                    <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
+        <a href="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Wall for @guillermosainz</a>
+    by <a href="https://sketchfab.com/guillermosainz?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">guillermosainz</a>
+    on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+</p>
+
+                </div>
+            </div>
         </div>
     </section>
+
 
     <section id="about" style="background: #edf0f2">
         <div class="container">
@@ -168,7 +228,7 @@
                     <div class="service-box">
                         <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
                         <h3>How it works</h3>
-                        <p class="text-muted">We use <a href="http://blender.org/">Blender</a> to generate dynamic 3D models and upload them with the <a href="https://sketchfab.com/developers" target="_blank">Sketchfab API</a>.</p>
+                        <p class="text-muted">We use <a href="http://blender.org/" target="_blank">Blender</a> to generate dynamic 3D models and upload them with the <a href="https://sketchfab.com/developers" target="_blank">Sketchfab API</a>.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
@@ -188,114 +248,14 @@
             </div>
         </div>
     </section>
-
-    <section class="no-padding" id="portfolio" style="display: none">
-
-    <!-- // FOR FEATURED SKETCHFAB INSTAMUSEUMS MADE BY USERS:
-    -->
-        <div class="container-fluid">
-            <div class="row no-gutter">
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/1.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/2.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/3.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/4.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/5.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/static/instamuseum/img/portfolio/6.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <section id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">Using the Sketchfab API is super simple.</h2>
                     <hr class="primary">
-                    <p>Ready to create 3d models with your web app? That's great! <br />Check the documentation and give it a try.</p>
+                    <p>Ready to create 3d models with your web app? Great! <br />Check the documentation and give it a try.</p>
                 </div>
 
                 <div class="col-lg-8 col-lg-offset-2 text-center">
@@ -319,8 +279,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ url_for('static', filename='instamuseum/js/creative.js') }}"></script>
-
-<a href="https://github.com/sylvinus/imgfab" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0; z-index:9999" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
 
 <script>
   $(function() {
@@ -461,7 +419,7 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
-
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
 </html>
