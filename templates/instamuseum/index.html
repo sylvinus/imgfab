@@ -11,11 +11,11 @@
     
     <meta name="twitter:card" content="summary" />
     <meta property="twitter:url" content="http://www.instamuseum.com" />
-    <meta property="twitter:image" content="http://www.instamuseum.com/static/instamuseum/img/header.jpg" />
+    <meta property="twitter:image" content="{{ url_for('static', filename='instamuseum/img/thumbnail.jpg') }}" />
 
 
     <meta property="og:title" content="Instamuseum: Turn Your Instagram Photos into a Virtual Reality Gallery"/>
-    <meta property="og:image" content="http://www.instamuseum.com/static/instamuseum/img/header.jpg"/>
+    <meta property="og:image" content="{{ url_for('static', filename='instamuseum/img/thumbnail.jpg') }}"/>
     <meta property="og:site_name" content="Instamuseum"/>
     <meta property="og:description" content="Turn your Instagram pictures into a virtual museum in one click. Walk into your photo gallery in VR."/>
 
@@ -80,11 +80,9 @@
             <div class="header-content-inner">
                 <h1 style="font-size: 60px;"><img src="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" style="height:100px"/>Instamuseum</h1>
                 <hr>
-              <div style="display:none">  <p>Turn your Instagram pictures into a virtual museum in one click! </p>
-                <p>Your Instagram, in VR</p>
-                <p>Walk into your Instagram gallery</p>
-                <p>Turn Your Instagram Photos into a Virtual Reality Gallery</p>
-                </div>
+              <div>
+                <p>Turn your Instagram pictures into a virtual museum</p>
+              </div>
                 <a href="#start" class="btn btn-primary btn-xl page-scroll">Get Started</a>
             </div>
         </div>
