@@ -92,7 +92,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Create your own 3D gallery</h2>
+                    <h2 class="section-heading">Create your own VR gallery</h2>
                     <hr class="primary">
                 </div>
             </div>
@@ -122,13 +122,13 @@
 
           {% if user.username %}
 
-            <button id="go_create" class="btn btn-primary btn-xl">Create 3D Gallery!</button>
+            <button id="go_create" class="btn btn-primary btn-xl">Create VR Gallery!</button>
 
           {% else %}
 
               <!-- If we are not yet logged into sketchfab, login first then come back here and auto-start the gallery -->
 
-              <a class="btn btn-primary btn-xl sketchfab-connect-button" href="{{ url_for("social.auth", backend="sketchfab") }}?next=/%3Fcreate%3D1">Create 3D Gallery!</a>
+              <a class="btn btn-primary btn-xl sketchfab-connect-button" href="{{ url_for("social.auth", backend="sketchfab") }}?next=/%3Fcreate%3D1">Create VR Gallery!</a>
 
           {% endif %}
 
@@ -158,13 +158,14 @@
                     <!-- END SKFB TOOL-->
                 </div>
             </div>
-          <center>   
+ <center>   
  <a href="https://twitter.com/share" class="twitter-share-button" data-via="Sketchfab" data-size="medium" data-related="Sketchfab">Tweet</a>
  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 &nbsp; <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.instamuseum.com&width=50&layout=button&action=like&show_faces=false&share=false&height=20&appId=272479259760201" width="50" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 &nbsp; <a class="github-button" href="https://github.com/sylvinus/imgfab/fork" aria-label="Fork sylvinus/imgfab on GitHub">Fork</a>
 </center>
-                   </div>
+<h6 style="text-align:center; text-decoration:underline;"><a href="https://help.sketchfab.com/hc/en-us/articles/204777439-Virtual-Reality-VR-" target="_blank" style="color: #848484;">How to view your gallery in VR</a></h6>
+</div>
     </section>
 
  <section id="portfolio">
@@ -178,17 +179,15 @@
         </div>
         <div class="container-fluid">
             <div class="row no-gutter">
-                <div class="col-lg-4 col-sm-6">
+                <div class="col-lg-4" style="text-align: center;">
                     <iframe width="480" height="300" src="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                     <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
     <a href="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @nineinchnails</a>
     by <a href="https://sketchfab.com/sylvinus?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">sylvinus</a>
     on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
 </p>
-
-
                 </div>
-                <div class="col-lg-4 col-sm-6">
+                <div class="col-lg-4" style="text-align: center;">
                         <iframe width="480" height="300" src="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                         <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
     <a href="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @albandenoyel</a>
@@ -197,7 +196,7 @@
 </p>
 
                 </div>
-                <div class="col-lg-4 col-sm-6">
+                <div class="col-lg-4" style="text-align: center;">
                     <iframe width="480" height="300" src="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                     <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
         <a href="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Wall for @guillermosainz</a>
@@ -209,17 +208,16 @@
             </div>
         </div>
     </section>
-    
-   <section id="more" style="padding: 35px 0;">
+<section id="more" style="padding: 0px 0px 20px 0px;">
 	 <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h4 class="section-heading"><a href="https://sketchfab.com/tags/instamuseum" target="_blank">View more virtual museums</a></h2>
+                    <h4 class="section-heading"><a href="https://sketchfab.com/tags/instamuseum" target="_blank">View more virtual museums</a></h4>
+                    <hr class="secondary">
                 </div>
             </div>
         </div>
     </section>
-
     <section id="about" style="background: #edf0f2">
         <div class="container">
             <div class="row">
