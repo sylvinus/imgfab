@@ -297,7 +297,9 @@
 <script>
 
     {% if user.username and request.args.get('create') == "1" %}
+    $(function() {
         create_gallery();
+    });
     {% endif %}
 
 </script>
