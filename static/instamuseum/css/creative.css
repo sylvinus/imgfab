@@ -537,12 +537,12 @@ body {
     border: 2px solid #d1d1d1;
     border-radius: 4px;
 	padding:10px;
-	width: 40%;
+	width: 280px;
 	margin: auto;
     }
 .sketchfab-connect-watch{
 	outline: none;
 	}
 .form-control{
-	width:43%;
+	width:305px;
 	margin: auto;}
