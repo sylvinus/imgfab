@@ -213,6 +213,85 @@ class UploadToSketchfab(Task):
                 }
             }}
 
+        elif layout == "artgallery":
+
+            data = {
+
+                "version": 2,
+
+                "background": {
+                    "uid": "51af6a870cce449eb75b0345feebaebb",
+                    "enable": "environment",
+                    "color": [0.20000000298023224, 0.20000000298023224, 0.20000000298023224]
+                },
+                "environment": {
+                    "uid": "78a54c2fd53a4ba4891a4bbdac7f30f7",
+                    "enable": True,
+                    "exposure": 0.4420000000000001,
+                    "rotation": 0,
+                    "blur": 0.1,
+                    "backgroundExposure": 1
+                },
+                "orientation": {
+                    "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+                },
+                "scene": {
+                    "fov": 60,
+                    "postProcess": {
+                        "enable": True,
+                        "grain": {
+                            "enable": False,
+                            "animated": False,
+                            "factor": 0.15
+                        },
+                        "sharpen": {
+                            "enable": False,
+                            "factor": 1
+                        },
+                        "chromaticAberration": {
+                            "enable": False,
+                            "factor": 0.05
+                        },
+                        "vignette": {
+                            "enable": False,
+                            "lens": [0.800000011920929, 0.25]
+                        },
+                        "bloom": {
+                            "enable": True,
+                            "factor": 0.5,
+                            "threshold": 0.66833752096446,
+                            "radius": 0.11
+                        },
+                        "toneMapping": {
+                            "enable": True,
+                            "method": "filmic",
+                            "exposure": 0.6859999999999999,
+                            "brightness": 0.14,
+                            "contrast": 9.509900499000005e-11,
+                            "saturation": 0.937
+                        },
+                        "colorBalance": {
+                            "enable": False,
+                            "low": [0, 0, 0],
+                            "mid": [0, 0, 0],
+                            "high": [0, 0, 0]
+                        }
+                    }
+                },
+                "shading": {
+                    "type": "lit",
+                    "renderer": "pbr",
+                    "vertexColor": {
+                        "enable": False,
+                        "colorSpace": "srgb"
+                    }
+                },
+                "camera": {
+                    "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
+                    "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264]
+                }
+            }
+
         print "Sending", data
         if data:
 
