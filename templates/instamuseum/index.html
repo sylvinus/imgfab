@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Turn your Instagram pictures into a virtual museum in one click. Walk into your photo gallery in VR.">
     <meta name="author" content="">
-    
+
     <meta name="twitter:card" content="summary" />
     <meta property="twitter:url" content="http://www.instamuseum.com" />
     <meta property="twitter:image" content="{{ url_for('static', filename='instamuseum/img/thumbnail.jpg') }}" />
@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='instamuseum/img/favicon.ico') }}" type="image/x-icon">
-    
+
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -109,11 +109,12 @@
                         <div class="prefix">instagram.com/</div>
                         <input type="text" class="sketchfab-connect-watch" id="instagram_username" value="{{ request.args.get('instagram_username', '') }}" />
 </label>
-        
+
           <br/>
          <h4>Select a layout</h4>
           <select id="imgfab_layout" class="form-control" class="sketchfab-connect-watch">
             <option {% if request.args.get('imgfab_layout') == "louvre" %}selected='selected'{% endif %} value="louvre">Louvre room (Max: 12 photos)</option>
+            <option {% if request.args.get('imgfab_layout') == "artgallery" %}selected='selected'{% endif %} value="artgallery">Art gallery (Max: 12 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "wall" %}selected='selected'{% endif %} value="wall">Wall (Max: 3 x 30 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "cube" %}selected='selected'{% endif %} value="cube">Cube (Max: 6 photos)</option>
 
@@ -158,11 +159,11 @@
                     <!-- END SKFB TOOL-->
                 </div>
             </div>
- <center>   
+ <center>
  <a href="https://twitter.com/share" class="twitter-share-button" data-via="Sketchfab" data-size="medium" data-related="Sketchfab">Tweet</a>
  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 &nbsp; <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.instamuseum.com&width=50&layout=button&action=like&show_faces=false&share=false&height=20&appId=272479259760201" width="50" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
-&nbsp; <a class="github-button" href="https://github.com/sylvinus/imgfab/fork" aria-label="Fork sylvinus/imgfab on GitHub">Fork</a>
+&nbsp; <a class="github-button" href="https://github.com/sylvinus/imgfab" aria-label="Fork sylvinus/imgfab on GitHub">GitHub</a>
 </center>
 <h4 style="text-align:center; text-decoration:underline;"><a href="https://help.sketchfab.com/hc/en-us/articles/204777439-Virtual-Reality-VR-" target="_blank" style="color: #848484;">How to view your gallery in VR</a></h4>
 </div>
@@ -180,7 +181,7 @@
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="col-lg-4" style="text-align: center;">
-                    <iframe width="480" height="300" src="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                    <iframe width="90%" height="300" src="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                     <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
     <a href="https://sketchfab.com/models/1818b9668c6d4da9b50bc83e45725311?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @nineinchnails</a>
     by <a href="https://sketchfab.com/sylvinus?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">sylvinus</a>
@@ -188,7 +189,7 @@
 </p>
                 </div>
                 <div class="col-lg-4" style="text-align: center;">
-                        <iframe width="480" height="300" src="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                        <iframe width="90%" height="300" src="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                         <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
     <a href="https://sketchfab.com/models/4ec077a7d6ce4f70a20bea15c17dc037?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Instamuseum for @albandenoyel</a>
     by <a href="https://sketchfab.com/alban?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">alban</a>
@@ -197,7 +198,7 @@
 
                 </div>
                 <div class="col-lg-4" style="text-align: center;">
-                    <iframe width="480" height="300" src="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                    <iframe width="90%" height="300" src="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
                     <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
         <a href="https://sketchfab.com/models/0bc0dc5c4fc74e6f8795d68388ecec5a?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">Wall for @guillermosainz</a>
     by <a href="https://sketchfab.com/guillermosainz?utm_medium=embed&utm_source=website&utm_campain=share-popup" target="_blank" style="font-weight: bold; color: #1CAAD9;">guillermosainz</a>
@@ -253,7 +254,7 @@
             </div>
         </div>
     </section>
-    
+
     <section id="contact">
         <div class="container">
             <div class="row">
@@ -285,130 +286,13 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ url_for('static', filename='instamuseum/js/creative.js') }}"></script>
 
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
 <script>
-  $(function() {
-
-
-    $(".sketchfab-connect-watch").on("change keyup", function() {
-        console.log("yo");
-        var url = $(".sketchfab-connect-button")[0].getAttribute("href");
-        var next_url = "/?create=1&instagram_username="+$("#instagram_username").val() + "&imgfab_layout=" +$("#imgfab_layout").val() + "#start";
-        url = url.replace(/next=.*/, "next="+encodeURIComponent(next_url));
-        $(".sketchfab-connect-button")[0].setAttribute("href", url);
-    });
-
-
-    $("#go_create").on("click", function() {
-        create_gallery();
-    });
-
-    var create_gallery = function() {
-
-      var params = {
-        "layout": $("#imgfab_layout").val(),
-        "brand": "instamuseum"
-      };
-
-      if ($("#facebook_albums").val()) {
-        params["source_name"] = "FacebookAlbum";
-        params["source_data"] = {
-          "album": $("#facebook_albums").val()
-        }
-      } else {
-
-        if (!$("#instagram_username").val()) {
-            return alert("Please enter an Instagram username!");
-        }
-
-        params["source_name"] = "InstagramFeed";
-        params["source_data"] = {
-          "username": $("#instagram_username").val()
-        }
-      }
-
-      $("#model_link").hide();
-      $("#go_create").hide();
-      $("#model_loading").show();
-
-      $.ajax({
-        url: "/create_job",
-        data: {
-          "path": "process.Create3dGallery",
-          "params": JSON.stringify(params)
-        },
-        method:"POST",
-        dataType: "json",
-        success: function(data) {
-          var job_id = data.job_id;
-
-          poll_for_model(job_id);
-
-          // Trigger some fake processing events to make the user wait a bit.
-          setTimeout(function() {
-            $(".model_loading_status").html("Downloading images from Instagram...");
-          }, 5000);
-
-          setTimeout(function() {
-            $(".model_loading_status").html("Building 3D model...");
-          }, 20000);
-
-          setTimeout(function() {
-            $(".model_loading_status").html("Exporting Blender file...");
-          }, 40000);
-
-          setTimeout(function() {
-            $(".model_loading_status").html("Uploading to Sketchfab...");
-          }, 60000);
-
-          setTimeout(function() {
-            $(".model_loading_status").html("Waiting for Sketchfab to process the model...");
-          }, 90000);
-
-        }
-      });
-
-      // Remove parameters from the URL
-      if (history && history.pushState) {
-        setTimeout(function() {
-            history.pushState({}, "Instamuseum", "/");
-        }, 2000);
-
-      }
-
-    };
-
-    var poll_for_model = function(job_id) {
-      $.getJSON("/get_job?job_id="+job_id, function(data) {
-        if (data.status == "success") {
-
-          $("#model_embed").html(
-            '<br/><iframe width="640" height="480" src="'+data.result.model_url+'/embed?autostart=1" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe><br/><br/>'
-            );
-
-          $(".model_share").html('<iframe src="https://www.facebook.com/plugins/share_button.php?href='+encodeURIComponent(data.result.model_url)+'&layout=button_count&mobile_iframe=false&width=87&height=20&appId" width="87" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe><br/>');
-
-          $(".model_link_a").html(data.result.model_url);
-          $(".model_link_a").attr("href", data.result.model_url);
-          $("#model_link").show();
-          $("#model_loading").hide();
-
-        } else if (data.status == "failed") {
-          $("#model_loading").hide();
-          alert("There was an error creating your model. Please try again later!");
-        } else {
-          setTimeout(function() {
-            poll_for_model(job_id)
-          }, 5000);
-        }
-      });
-    }
 
     {% if user.username and request.args.get('create') == "1" %}
         create_gallery();
     {% endif %}
-
-
-  });
 
 </script>
 

@@ -93,6 +93,8 @@ def setup_scene(layout):
 
     elif layout == "louvre":
         bpy.ops.wm.open_mainfile(filepath="3dmodels/louvre.blend")
+    elif layout == "artgallery":
+        bpy.ops.wm.open_mainfile(filepath="3dmodels/artgallery/model.blend")
 
 
 directory = sys.argv[-1]
@@ -202,12 +204,20 @@ for i, image in enumerate(data["images"]):
             (-spacing2, -wall2, height)
         ][i]
 
-    create_plane_for_image(
-        location=location,
-        rotation=rotation,
-        scale=scale,
-        image=image
-    )
+    elif layout == "artgallery":
+        old_img = bpy.data.textures['Picture%02d' % (i + 1)].image
+        bpy.data.textures['Picture%02d' % (i + 1)].image = None
+        bpy.data.images.remove(old_img)
+        bpy.data.textures['Picture%02d' % (i + 1)].image = bpy.data.images.load(image["filepath"])
+
+    if location:
+
+        create_plane_for_image(
+            location=location,
+            rotation=rotation,
+            scale=scale,
+            image=image
+        )
 
 bpy.ops.file.pack_all()
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(directory, "export.blend"))

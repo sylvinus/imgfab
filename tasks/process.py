@@ -35,7 +35,8 @@ class Create3dGallery(Task):
         limit = params.get("limit", {
             "cube": 6,
             "wall": 90,
-            "louvre": 12
+            "louvre": 12,
+            "artgallery": 12
         }.get(layout, 10))
 
         localdebug = params.get("localdebug")

@@ -170,6 +170,10 @@ aside {
     .navbar-default.affix .nav>li>a:focus:hover {
         color: #f05f40;
     }
+
+    .navbar-default.affix-top {
+        border:0;
+    }
 }
 
 header {
@@ -502,7 +506,7 @@ body {
     outline: 0px;
     margin-left: -4px;
     }
-    
+
 .form-input, .form-listbox, .form-prefixed-input {
     display: block;
     box-sizing: content-box;
@@ -515,7 +519,7 @@ body {
     background: #fff;
     outline: none;
     }
-    
+
 .form-prefixed-input {
     display: -webkit-box;
     display: -webkit-flex;
