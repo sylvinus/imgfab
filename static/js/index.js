@@ -103,11 +103,13 @@ var poll_for_model = function(job_id) {
 $(function() {
 
   $(".sketchfab-connect-watch").on("change keyup", function() {
-      console.log("yo");
-      var url = $(".sketchfab-connect-button")[0].getAttribute("href");
-      var next_url = "/?create=1&instagram_username="+$("#instagram_username").val() + "&imgfab_layout=" +$("#imgfab_layout").val() + "#start";
-      url = url.replace(/next=.*/, "next="+encodeURIComponent(next_url));
-      $(".sketchfab-connect-button")[0].setAttribute("href", url);
+
+    if (!$(".sketchfab-connect-button").length) return;
+
+    var url = $(".sketchfab-connect-button")[0].getAttribute("href");
+    var next_url = "/?create=1&instagram_username="+$("#instagram_username").val() + "&imgfab_layout=" +$("#imgfab_layout").val() + "#start";
+    url = url.replace(/next=.*/, "next="+encodeURIComponent(next_url));
+    $(".sketchfab-connect-button")[0].setAttribute("href", url);
   });
 
   $("#go_create").on("click", function() {

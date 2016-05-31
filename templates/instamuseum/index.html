@@ -113,8 +113,8 @@
           <br/>
          <h4>Select a layout</h4>
           <select id="imgfab_layout" class="form-control" class="sketchfab-connect-watch">
-            <option {% if request.args.get('imgfab_layout') == "louvre" %}selected='selected'{% endif %} value="louvre">Louvre room (Max: 12 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "artgallery" %}selected='selected'{% endif %} value="artgallery">Art gallery (Max: 12 photos)</option>
+            <option {% if request.args.get('imgfab_layout') == "louvre" %}selected='selected'{% endif %} value="louvre">Louvre room (Max: 12 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "wall" %}selected='selected'{% endif %} value="wall">Wall (Max: 3 x 30 photos)</option>
             <option {% if request.args.get('imgfab_layout') == "cube" %}selected='selected'{% endif %} value="cube">Cube (Max: 6 photos)</option>
 

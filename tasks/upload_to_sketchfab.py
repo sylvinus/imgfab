@@ -215,7 +215,7 @@ class UploadToSketchfab(Task):
 
         elif layout == "artgallery":
 
-            data = {
+            data = {'options': {
 
                 "version": 2,
 
@@ -290,7 +290,7 @@ class UploadToSketchfab(Task):
                     "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
                     "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264]
                 }
-            }
+            }}
 
         print "Sending", data
         if data:
