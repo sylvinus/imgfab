@@ -302,3 +302,4 @@ class UploadToSketchfab(Task):
             )
 
             print "Sketchfab API returns", r.status_code
+            print r.content[0:300]

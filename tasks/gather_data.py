@@ -64,7 +64,7 @@ class InstagramFeed(Task):
 
         user_search = get_json(user_search_url)
 
-        print "Got %s user matches for %s from the Instagram API " % (len(user_search.get("data", [])), username)
+        print "Got %s user matches for %s from the Instagram API " % (len(user_search.get("data", [])), repr(username))
 
         # if len(user_search.get("data", [])) == 0:
         #     return None
