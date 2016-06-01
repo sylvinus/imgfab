@@ -153,6 +153,14 @@ class UploadToSketchfab(Task):
                 print "Try failed with error {}".format(e)
                 errors += 1
                 retry += 1
+                sleep(retry_timeout)
+                continue
+
+            if r.status_code != requests.codes.ok:
+                print "Upload got status code: {}".format(r.status_code)
+                errors += 1
+                retry += 1
+                sleep(retry_timeout)
                 continue
 
             try:
@@ -163,12 +171,7 @@ class UploadToSketchfab(Task):
                 print r.content
                 errors += 1
                 retry += 1
-                continue
-
-            if r.status_code != requests.codes.ok:
-                print "Upload failed with error: {}".format(result['error'])
-                errors += 1
-                retry += 1
+                sleep(retry_timeout)
                 continue
 
             processing_status = result['processing']
@@ -178,14 +181,17 @@ class UploadToSketchfab(Task):
                 retry += 1
                 sleep(retry_timeout)
                 continue
+
             elif processing_status == 'PROCESSING':
                 print "Your model is still being processed. Will retry in {} seconds".format(retry_timeout)
                 retry += 1
                 sleep(retry_timeout)
                 continue
+
             elif processing_status == 'FAILED':
                 print "Processing failed: {}".format(result['error'])
                 return
+
             elif processing_status == 'SUCCEEDED':
                 model_url = SKETCHFAB_MODEL_URL + model_uid
                 print "Processing successful. Check your model here: {}".format(model_url)
