@@ -96,6 +96,10 @@ def setup_scene(layout):
     elif layout == "artgallery":
         bpy.ops.wm.open_mainfile(filepath="3dmodels/artgallery/model.blend")
 
+        for i in range(12):
+            old_img = bpy.data.textures['Picture%02d' % (i + 1)].image
+            bpy.data.textures['Picture%02d' % (i + 1)].image = None
+            bpy.data.images.remove(old_img)
 
 directory = sys.argv[-1]
 
@@ -205,9 +209,6 @@ for i, image in enumerate(data["images"]):
         ][i]
 
     elif layout == "artgallery":
-        old_img = bpy.data.textures['Picture%02d' % (i + 1)].image
-        bpy.data.textures['Picture%02d' % (i + 1)].image = None
-        bpy.data.images.remove(old_img)
         bpy.data.textures['Picture%02d' % (i + 1)].image = bpy.data.images.load(image["filepath"])
 
     if location:
