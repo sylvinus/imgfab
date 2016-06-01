@@ -92,6 +92,7 @@ var poll_for_model = function(job_id) {
     } else if (data.status == "failed") {
       $("#model_loading").hide();
       alert("Sorry, there was an error creating your model. Are you sure that Instagram account exists?");
+      window.location.reload();
     } else {
       setTimeout(function() {
         poll_for_model(job_id)
