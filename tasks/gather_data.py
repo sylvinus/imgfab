@@ -66,7 +66,7 @@ class InstagramFeed(Task):
 
         user_id = None
         for apiuser in user_search["data"]:
-            if apiuser["username"] == username:
+            if apiuser["username"].lower() == username.lower():
                 user_id = apiuser["id"]
                 break
 

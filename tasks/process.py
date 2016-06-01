@@ -31,6 +31,7 @@ class Create3dGallery(Task):
 
         layout = params.get("layout", "cube")
         brand = params.get("brand", "imgfab")
+        sync = bool(params.get("sync"))
 
         limit = params.get("limit", {
             "cube": 6,
@@ -42,7 +43,7 @@ class Create3dGallery(Task):
         localdebug = params.get("localdebug")
 
         subtask = wait_for_job
-        if localdebug:
+        if localdebug or sync:
             def subtask(*args, **kwargs):
                 kwargs.pop("queue", None)
                 return run_task(*args, **kwargs)
