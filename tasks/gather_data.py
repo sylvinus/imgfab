@@ -64,11 +64,14 @@ class InstagramFeed(Task):
 
         user_search = get_json(user_search_url)
 
-        if len(user_search.get("data", [])) == 0:
-            return None
+        print "Got %s user matches for %s from the Instagram API " % (len(user_search.get("data", [])), username)
+
+        # if len(user_search.get("data", [])) == 0:
+        #     return None
 
         user_id = None
-        for apiuser in user_search["data"]:
+        photos = None
+        for apiuser in (user_search.get("data") or []):
             if apiuser["username"].lower() == username.lower():
                 user_id = apiuser["id"]
                 break
@@ -86,20 +89,26 @@ class InstagramFeed(Task):
                     js_data = m.group(1)
                     data = json.loads(js_data)
                     user_id = data["entry_data"]["ProfilePage"][0]["user"]["id"]
+                    photos = [
+                        {"source": node["display_src"]} for node in
+                        data["entry_data"]["ProfilePage"][0]["user"]["media"]["nodes"]
+                    ]
 
         if not user_id:
             raise Exception("User not found on Instagram!")
 
-        # TODO pagination, we might not get only images...
-        media = get_json("https://api.instagram.com/v1/users/%s/media/recent?client_id=%s&count=%s" % (
-            user_id, app.config["SOCIAL_AUTH_INSTAGRAM_ID"], limit * 5
-        ))
+        if not photos:
 
-        photos = [
-            {"source": x["images"]["standard_resolution"]["url"]}
-            for x in media.get("data", [])
-            if x.get("images") and x["type"] == "image"
-        ]
+            # TODO pagination, we might not get only images...
+            media = get_json("https://api.instagram.com/v1/users/%s/media/recent?client_id=%s&count=%s" % (
+                user_id, app.config["SOCIAL_AUTH_INSTAGRAM_ID"], limit * 5
+            ))
+
+            photos = [
+                {"source": x["images"]["standard_resolution"]["url"]}
+                for x in media.get("data", [])
+                if x.get("images") and x["type"] == "image"
+            ]
 
         print "Found %s photos" % len(photos)
 

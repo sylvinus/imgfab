@@ -26,7 +26,7 @@ TODO
  - Explicit warning when instagram account doesn't exist
  - Good return page if oauth2 cancel
  - Right-to-left images in Wall layout
-
+ - Instagram tags (someone asked for explore/tags/supermario/)
 
 Host your own instance on Heroku!
 =================================
