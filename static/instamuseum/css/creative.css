@@ -505,6 +505,7 @@ body {
     height: 25px;
     outline: 0px;
     margin-left: -4px;
+    width: 160px;
     }
 
 .form-input, .form-listbox, .form-prefixed-input {
