@@ -18,23 +18,13 @@ TODO
  - Facebook: Set sketchfab name from album name
  - Show FB album photo count (+ thumbnails?)
  - Much more exception handling
- - Other photo sources: Twitter, Instagram, Flickr, URL list
- - Nicer 3D rendering/lighting
+ - Other photo sources: Twitter, Flickr, URL list
  - Upload with annotations/hotspots
- - Favicon / Logo
  - Fix photo ratio on other layouts than museum
  - New layouts (sphere, larger rooms, ...)
- - link to sketchfab tag
- - layout gallery
  - remove form when model generating
- - tweak wording to add VR
- - New description:
-
-```
- Created with [Instamuseum](http://www.instamuseum.com).
-
-Original photos on Instagram at  [Sketchfabulous](https://www.instagram.com/sketchfabulous).
-```
+ - Explicit warning when instagram account doesn't exist
+ - Good return page if oauth2 cancel
 
 
 Host your own instance on Heroku!
