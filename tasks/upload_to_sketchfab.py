@@ -136,10 +136,10 @@ class UploadToSketchfab(Task):
         Poll the Sketchfab API to query the processing status
         """
         polling_url = "{}/{}/status?token={}".format(SKETCHFAB_API_URL, model_uid, self.sketchfab_api_key)
-        max_errors = 10
+        max_errors = 100
         errors = 0
         retry = 0
-        max_retries = 50
+        max_retries = 500
         retry_timeout = 5  # seconds
 
         print "Start polling processing status for model {}".format(model_uid)
@@ -155,7 +155,15 @@ class UploadToSketchfab(Task):
                 retry += 1
                 continue
 
-            result = r.json()
+            try:
+                result = r.json()
+            except ValueError as e:
+                print "JSON decoding failed with error {}".format(e)
+                print "Original content was:"
+                print r.content
+                errors += 1
+                retry += 1
+                continue
 
             if r.status_code != requests.codes.ok:
                 print "Upload failed with error: {}".format(result['error'])
