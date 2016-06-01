@@ -56,7 +56,7 @@ class InstagramFeed(Task):
         # print media
 
         limit = int(params.get("limit", 90))
-        username = params["source_data"]["username"].strip().replace("/", "").replace("@", "")
+        username = params["source_data"]["username"].replace("/", "").replace("@", "").strip()
 
         user_search_url = "https://api.instagram.com/v1/users/search?q=%s&client_id=%s" % (
             username, app.config["SOCIAL_AUTH_INSTAGRAM_ID"]
