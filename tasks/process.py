@@ -31,7 +31,7 @@ class Create3dGallery(Task):
 
         layout = params.get("layout", "cube")
         brand = params.get("brand", "imgfab")
-        sync = bool(params.get("sync"))
+        sync = bool(params.get("sync", True))
 
         limit = params.get("limit", {
             "cube": 6,
