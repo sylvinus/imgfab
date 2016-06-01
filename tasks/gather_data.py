@@ -4,6 +4,7 @@ import json
 import tempfile
 import requests
 import os
+import re
 from flaskapp import settings
 
 
@@ -57,9 +58,11 @@ class InstagramFeed(Task):
         limit = int(params.get("limit", 90))
         username = params["source_data"]["username"].strip().replace("/", "").replace("@", "")
 
-        user_search = get_json("https://api.instagram.com/v1/users/search?q=%s&client_id=%s" % (
+        user_search_url = "https://api.instagram.com/v1/users/search?q=%s&client_id=%s" % (
             username, app.config["SOCIAL_AUTH_INSTAGRAM_ID"]
-        ))
+        )
+
+        user_search = get_json(user_search_url)
 
         if len(user_search.get("data", [])) == 0:
             return None
@@ -71,7 +74,21 @@ class InstagramFeed(Task):
                 break
 
         if not user_id:
-            return None
+            print "User ID not found in the API, falling back to the profile page"
+
+            # There may be too much users with this exact prefix.
+            # This is a gaping hole in the Instagram API :/ Fallback to scraping!
+            profile_page = requests.get("https://www.instagram.com/%s/" % username)
+            if profile_page.status_code == 200:
+                html = profile_page.content
+                m = re.search(r"window\._sharedData = (.+?)\;\s*\<\/script\>", html)
+                if m:
+                    js_data = m.group(1)
+                    data = json.loads(js_data)
+                    user_id = data["entry_data"]["ProfilePage"][0]["user"]["id"]
+
+        if not user_id:
+            raise Exception("User not found on Instagram!")
 
         # TODO pagination, we might not get only images...
         media = get_json("https://api.instagram.com/v1/users/%s/media/recent?client_id=%s&count=%s" % (
