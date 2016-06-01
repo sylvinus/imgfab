@@ -47,19 +47,19 @@ var create_gallery = function() {
 
       setTimeout(function() {
         $(".model_loading_status").html("Building 3D model...");
-      }, 20000);
+      }, 30000);
 
       setTimeout(function() {
         $(".model_loading_status").html("Exporting Blender file...");
-      }, 40000);
-
-      setTimeout(function() {
-        $(".model_loading_status").html("Uploading to Sketchfab...");
       }, 60000);
 
       setTimeout(function() {
-        $(".model_loading_status").html("Waiting for Sketchfab to process the model...");
+        $(".model_loading_status").html("Uploading to Sketchfab...");
       }, 90000);
+
+      setTimeout(function() {
+        $(".model_loading_status").html("Waiting for Sketchfab to process the model...");
+      }, 120000);
 
     }
   });
@@ -76,7 +76,7 @@ var create_gallery = function() {
 
 var poll_for_model = function(job_id) {
   $.getJSON("/get_job?job_id="+job_id, function(data) {
-    if (data.status == "success") {
+    if (data && data.status == "success") {
 
       $("#model_embed").html(
         '<br/><iframe width="640" height="480" src="'+data.result.model_url+'/embed?autostart=1" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe><br/><br/>'
@@ -89,14 +89,14 @@ var poll_for_model = function(job_id) {
       $("#model_link").show();
       $("#model_loading").hide();
 
-    } else if (data.status == "failed") {
+    } else if (data && data.status == "failed") {
       $("#model_loading").hide();
       alert("Sorry, there was an error creating your model. Are you sure that Instagram account exists?");
       window.location.reload();
     } else {
       setTimeout(function() {
         poll_for_model(job_id)
-      }, 5000);
+      }, 10000);
     }
   });
 };

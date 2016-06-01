@@ -139,7 +139,7 @@ class UploadToSketchfab(Task):
         max_errors = 100
         errors = 0
         retry = 0
-        max_retries = 500
+        max_retries = 1000
         retry_timeout = 5  # seconds
 
         print "Start polling processing status for model {}".format(model_uid)
