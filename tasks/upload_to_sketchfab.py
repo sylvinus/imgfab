@@ -289,6 +289,12 @@ class UploadToSketchfab(Task):
                             "low": [0, 0, 0],
                             "mid": [0, 0, 0],
                             "high": [0, 0, 0]
+                        },
+                        "dof": {
+                            "enable": False,
+                            "blurNear": 0.5,
+                            "blurFar": 0.5,
+                            "focusPoint": [0, 0, 0]
                         }
                     }
                 },
@@ -300,6 +306,14 @@ class UploadToSketchfab(Task):
                         "colorSpace": "srgb"
                     }
                 },
+                # "vr": {
+                #     "scale": 0.9968392732602184,
+                #     "initialCamera": {
+                #         "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
+                #         "rotation": [0, 0, 0, 1]
+                #     },
+                #     "floorHeight": -1
+                # },
                 "camera": {
                     "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
                     "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264]
@@ -315,5 +329,26 @@ class UploadToSketchfab(Task):
                 data=json.dumps(data)
             )
 
+            # print "URL:"
+            # print 'https://api.sketchfab.com/v2/models/{}?token={}'.format(model_uid, self.sketchfab_api_key)
+            # print "Headers:"
+            # print json.dumps(headers)
+            # print "HTTP PATCH:"
+            # print json.dumps(data)
+
             print "Sketchfab API returns", r.status_code
             print r.content[0:300]
+
+
+# mrq-run tasks.upload_to_sketchfab.Reset3DOptions model 68fa5bbf04884354996ef2b0d4e43f3b layout artgallery user 578f3a0035c289000b7d3f25
+class Reset3DOptions(UploadToSketchfab):
+
+    def run(self, params):
+
+        from flaskapp.app import app
+
+        if params.get("user"):
+            user = User.objects.get(id=params["user"])
+            self.sketchfab_api_key = user.get_social_auth("sketchfab").extra_data['apiToken']
+
+        return self.set_3d_options(params["model"], params["layout"])
