@@ -303,7 +303,8 @@ class UploadToSketchfab(Task):
                     "renderer": "pbr",
                     "vertexColor": {
                         "enable": False,
-                        "colorSpace": "srgb"
+                        "colorSpace": "srgb",
+                        "useAlpha": False
                     }
                 },
                 # "vr": {
