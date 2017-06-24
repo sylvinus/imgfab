@@ -223,7 +223,10 @@ class UploadToSketchfab(Task):
                     'enable': True,
                     'exposure': 5.37483797816,
                     'rotation': 0,
-                    'uid': 'e73867d210de4bc2b5eb261738cf3e79'
+                    'uid': 'e73867d210de4bc2b5eb261738cf3e79',
+                    "shadowEnable": false,
+                    "shadowBias": 0.005,
+                    "lightIntensity": 1
                 }
             }}
 
@@ -244,7 +247,10 @@ class UploadToSketchfab(Task):
                     "exposure": 0.4420000000000001,
                     "rotation": 0,
                     "blur": 0.1,
-                    "backgroundExposure": 1
+                    "backgroundExposure": 1,
+                    "shadowEnable": false,
+                    "shadowBias": 0.005,
+                    "lightIntensity": 1
                 },
                 "orientation": {
                     "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
