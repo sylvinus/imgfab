@@ -225,7 +225,7 @@ class UploadToSketchfab(Task):
                         'useYawConstraints': False,
                         'up': 1.5550883635269477,
                         'down': -1.5550883635269477
-    },
+                },
 
                 # Bryant park environment
                 'environment': {
@@ -238,6 +238,11 @@ class UploadToSketchfab(Task):
                     'shadowEnable': False,
                     'shadowBias': 0.005,
                     'lightIntensity': 1
+                },
+                
+                'shading': {
+                    'type': 'lit',
+                    'renderer':'pbr'
                 }
             }}
 
@@ -245,20 +250,18 @@ class UploadToSketchfab(Task):
 
             data = {'options': {
 
-                "version": 2,
-
                 "background": {
                     "uid": "51af6a870cce449eb75b0345feebaebb",
                     "enable": "environment",
                     "color": [0.20000000298023224, 0.20000000298023224, 0.20000000298023224]
                 },
                 "environment": {
-                    "uid": "e73867d210de4bc2b5eb261738cf3e79",
-                    "enable": True,
-                    "exposure": 0.4420000000000001,
-                    "rotation": 0,
-                    "blur": 0.1,
                     "backgroundExposure": 1,
+                    "blur": 0.1,
+                    "enable": True,
+                    "exposure": 5.37483797816,
+                    "rotation": 0,
+                    "uid": "e73867d210de4bc2b5eb261738cf3e79",
                     "shadowEnable": False,
                     "shadowBias": 0.005,
                     "lightIntensity": 1
@@ -312,6 +315,16 @@ class UploadToSketchfab(Task):
                             "blurNear": 0.5,
                             "blurFar": 0.5,
                             "focusPoint": [0, 0, 0]
+                        },
+                        "ssao": {
+                            "enable": false,
+                            "bias": 0.00866025403784439,
+                            "intensity": 0.5,
+                            "radius": 0.043301270189221946
+                        },
+                        "taa": {
+                            "enable": true,
+                            "transparent": true
                         }
                     }
                 },
@@ -346,6 +359,7 @@ class UploadToSketchfab(Task):
                     "up": 1.5550883635269477,
                     "down": -1.5550883635269477
                 }
+                
             }}
 
         print "Sending", data
