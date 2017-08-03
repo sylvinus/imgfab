@@ -213,8 +213,8 @@ class UploadToSketchfab(Task):
             data = {'options': {
                 
                     'camera': {
-                        'position': [9.444898182364991,-9.397479894627205,6.751924525139464],
-                        'target': [0.004740396854982091,-0.013087975191115158,-0.006694933864909545],
+                        'position': [-0.5655142694766133,-0.17883883950099416,-0.5158722758070228],
+                        'target': [-0.2785130611382468,-0.11043290142066092,-0.5412130323100272],
                         'useCameraConstraints': False,
                         'useZoomConstraints': False,
                         'zoomIn': 0,
@@ -253,12 +253,15 @@ class UploadToSketchfab(Task):
                     "color": [0.20000000298023224, 0.20000000298023224, 0.20000000298023224]
                 },
                 "environment": {
-                    "uid": "78a54c2fd53a4ba4891a4bbdac7f30f7",
+                    "uid": "e73867d210de4bc2b5eb261738cf3e79",
                     "enable": True,
                     "exposure": 0.4420000000000001,
                     "rotation": 0,
                     "blur": 0.1,
-                    "backgroundExposure": 1
+                    "backgroundExposure": 1,
+                    "shadowEnable": False,
+                    "shadowBias": 0.005,
+                    "lightIntensity": 1
                 },
                 "orientation": {
                     "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
@@ -331,7 +334,17 @@ class UploadToSketchfab(Task):
                 # },
                 "camera": {
                     "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
-                    "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264]
+                    "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264],
+                    "useCameraConstraints": False,
+                    "useZoomConstraints": False,
+                    "zoomIn": 0,
+                    "zoomOut": 34,
+                    "usePitchConstraints": False,
+                    "left": -3.141592653589793,
+                    "right": 3.141592653589793,
+                    "useYawConstraints": False,
+                    "up": 1.5550883635269477,
+                    "down": -1.5550883635269477
                 }
             }}
 
