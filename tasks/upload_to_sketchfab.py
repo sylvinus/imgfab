@@ -211,10 +211,21 @@ class UploadToSketchfab(Task):
 
             # TODO dump these options in a JSON file next to the model to better encapsulate specifics?
             data = {'options': {
-                'camera': {
-                    'position': [-0.5655142694766133, -0.17883883950099416, -0.5158722758070228],
-                    'target': [-0.2785130611382468, -0.11043290142066092, -0.5412130323100272]
-                },
+                
+                    'camera': {
+                        'position': [9.444898182364991,-9.397479894627205,6.751924525139464],
+                        'target': [0.004740396854982091,-0.013087975191115158,-0.006694933864909545],
+                        'useCameraConstraints': false,
+                        'useZoomConstraints': false,
+                        'zoomIn': 0,
+                        'zoomOut': 34,
+                        'usePitchConstraints': false,
+                        'left': -3.141592653589793,
+                        'right': 3.141592653589793,
+                        'useYawConstraints': false,
+                        'up': 1.5550883635269477,
+                        'down': -1.5550883635269477
+    },
 
                 # Bryant park environment
                 'environment': {
