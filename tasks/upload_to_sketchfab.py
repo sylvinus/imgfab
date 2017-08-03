@@ -280,7 +280,7 @@ class UploadToSketchfab(Task):
                         },
                         "sharpen": {
                             "enable": True,
-                            "factor": 15
+                            "factor": 0.2
                         },
                         "chromaticAberration": {
                             "enable": False,
