@@ -215,14 +215,14 @@ class UploadToSketchfab(Task):
                     'camera': {
                         'position': [9.444898182364991,-9.397479894627205,6.751924525139464],
                         'target': [0.004740396854982091,-0.013087975191115158,-0.006694933864909545],
-                        'useCameraConstraints': false,
-                        'useZoomConstraints': false,
+                        'useCameraConstraints': False,
+                        'useZoomConstraints': False,
                         'zoomIn': 0,
                         'zoomOut': 34,
-                        'usePitchConstraints': false,
+                        'usePitchConstraints': False,
                         'left': -3.141592653589793,
                         'right': 3.141592653589793,
-                        'useYawConstraints': false,
+                        'useYawConstraints': False,
                         'up': 1.5550883635269477,
                         'down': -1.5550883635269477
     },
@@ -235,7 +235,7 @@ class UploadToSketchfab(Task):
                     'exposure': 5.37483797816,
                     'rotation': 0,
                     'uid': 'e73867d210de4bc2b5eb261738cf3e79',
-                    'shadowEnable': false,
+                    'shadowEnable': False,
                     'shadowBias': 0.005,
                     'lightIntensity': 1
                 }
