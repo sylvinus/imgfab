@@ -259,9 +259,9 @@ class UploadToSketchfab(Task):
                     "backgroundExposure": 1,
                     "blur": 0.1,
                     "enable": True,
-                    "exposure": 5.37483797816,
-                    "rotation": 0,
-                    "uid": "e73867d210de4bc2b5eb261738cf3e79",
+                    "exposure": 1,
+                    "rotation": 21.3,
+                    "uid": "e00dc642058b4176a4aaa449ea8ad5f8",
                     "shadowEnable": False,
                     "shadowBias": 0.005,
                     "lightIntensity": 1
@@ -279,8 +279,8 @@ class UploadToSketchfab(Task):
                             "factor": 0.15
                         },
                         "sharpen": {
-                            "enable": False,
-                            "factor": 1
+                            "enable": True,
+                            "factor": 15
                         },
                         "chromaticAberration": {
                             "enable": False,
