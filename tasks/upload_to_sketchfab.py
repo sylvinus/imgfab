@@ -260,7 +260,7 @@ class UploadToSketchfab(Task):
                     "blur": 0.1,
                     "enable": True,
                     "exposure": 1,
-                    "rotation": 21.3,
+                    "rotation": 0.366519,
                     "uid": "e00dc642058b4176a4aaa449ea8ad5f8",
                     "shadowEnable": False,
                     "shadowBias": 0.005,
