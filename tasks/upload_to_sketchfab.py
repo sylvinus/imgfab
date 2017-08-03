@@ -317,14 +317,14 @@ class UploadToSketchfab(Task):
                             "focusPoint": [0, 0, 0]
                         },
                         "ssao": {
-                            "enable": false,
+                            "enable": False,
                             "bias": 0.00866025403784439,
                             "intensity": 0.5,
                             "radius": 0.043301270189221946
                         },
                         "taa": {
-                            "enable": true,
-                            "transparent": true
+                            "enable": True,
+                            "transparent": True
                         }
                     }
                 },
