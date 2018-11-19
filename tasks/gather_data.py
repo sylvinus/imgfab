@@ -88,10 +88,14 @@ class InstagramFeed(Task):
                 if m:
                     js_data = m.group(1)
                     data = json.loads(js_data)
-                    user_id = data["entry_data"]["ProfilePage"][0]["user"]["id"]
+                    # import pprint
+                    # pprint.pprint(data["entry_data"]["ProfilePage"][0])
+                    user_id = data["entry_data"]["ProfilePage"][0]["graphql"]["user"]["id"]
+
+                    # TODO: get square thumbnail only?
                     photos = [
-                        {"source": node["display_src"]} for node in
-                        data["entry_data"]["ProfilePage"][0]["user"]["media"]["nodes"]
+                        {"source": node["node"]["display_url"]} for node in
+                        data["entry_data"]["ProfilePage"][0]["graphql"]["user"]["edge_owner_to_timeline_media"]["edges"]
                     ]
 
         if not user_id:
