@@ -211,9 +211,20 @@ class UploadToSketchfab(Task):
 
             # TODO dump these options in a JSON file next to the model to better encapsulate specifics?
             data = {'options': {
-                'camera': {
-                    'position': [-0.5655142694766133, -0.17883883950099416, -0.5158722758070228],
-                    'target': [-0.2785130611382468, -0.11043290142066092, -0.5412130323100272]
+
+                    'camera': {
+                        'position': [-0.5655142694766133,-0.17883883950099416,-0.5158722758070228],
+                        'target': [-0.2785130611382468,-0.11043290142066092,-0.5412130323100272],
+                        'useCameraConstraints': False,
+                        'useZoomConstraints': False,
+                        'zoomIn': 0,
+                        'zoomOut': 34,
+                        'usePitchConstraints': False,
+                        'left': -3.141592653589793,
+                        'right': 3.141592653589793,
+                        'useYawConstraints': False,
+                        'up': 1.5550883635269477,
+                        'down': -1.5550883635269477
                 },
 
                 # Bryant park environment
@@ -224,9 +235,14 @@ class UploadToSketchfab(Task):
                     'exposure': 5.37483797816,
                     'rotation': 0,
                     'uid': 'e73867d210de4bc2b5eb261738cf3e79',
-                    'shadowEnable': false,
+                    'shadowEnable': False,
                     'shadowBias': 0.005,
                     'lightIntensity': 1
+                },
+
+                'shading': {
+                    'type': 'lit',
+                    'renderer': 'pbr'
                 }
             }}
 
@@ -234,21 +250,19 @@ class UploadToSketchfab(Task):
 
             data = {'options': {
 
-                "version": 2,
-
                 "background": {
                     "uid": "51af6a870cce449eb75b0345feebaebb",
                     "enable": "environment",
                     "color": [0.20000000298023224, 0.20000000298023224, 0.20000000298023224]
                 },
                 "environment": {
-                    "uid": "78a54c2fd53a4ba4891a4bbdac7f30f7",
-                    "enable": True,
-                    "exposure": 0.4420000000000001,
-                    "rotation": 0,
-                    "blur": 0.1,
                     "backgroundExposure": 1,
-                    "shadowEnable": false,
+                    "blur": 0.1,
+                    "enable": True,
+                    "exposure": 1,
+                    "rotation": 0.366519,
+                    "uid": "e00dc642058b4176a4aaa449ea8ad5f8",
+                    "shadowEnable": False,
                     "shadowBias": 0.005,
                     "lightIntensity": 1
                 },
@@ -265,8 +279,8 @@ class UploadToSketchfab(Task):
                             "factor": 0.15
                         },
                         "sharpen": {
-                            "enable": False,
-                            "factor": 1
+                            "enable": True,
+                            "factor": 0.2
                         },
                         "chromaticAberration": {
                             "enable": False,
@@ -301,6 +315,16 @@ class UploadToSketchfab(Task):
                             "blurNear": 0.5,
                             "blurFar": 0.5,
                             "focusPoint": [0, 0, 0]
+                        },
+                        "ssao": {
+                            "enable": False,
+                            "bias": 0.00866025403784439,
+                            "intensity": 0.5,
+                            "radius": 0.043301270189221946
+                        },
+                        "taa": {
+                            "enable": True,
+                            "transparent": True
                         }
                     }
                 },
@@ -323,8 +347,19 @@ class UploadToSketchfab(Task):
                 # },
                 "camera": {
                     "position": [0.23737691342830658, 0.647997260093689, 0.13770072162151337],
-                    "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264]
+                    "target": [0.05928045138716698, -0.2985966205596924, 0.12729839980602264],
+                    "useCameraConstraints": False,
+                    "useZoomConstraints": False,
+                    "zoomIn": 0,
+                    "zoomOut": 34,
+                    "usePitchConstraints": False,
+                    "left": -3.141592653589793,
+                    "right": 3.141592653589793,
+                    "useYawConstraints": False,
+                    "up": 1.5550883635269477,
+                    "down": -1.5550883635269477
                 }
+
             }}
 
         print "Sending", data
