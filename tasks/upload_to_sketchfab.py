@@ -270,7 +270,7 @@ class UploadToSketchfab(Task):
                     "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
                 },
                 "scene": {
-                    "fov": 60,
+                    # "fov": 60,
                     "postProcess": {
                         "enable": True,
                         "grain": {
